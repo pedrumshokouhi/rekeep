@@ -1,0 +1,92 @@
+{
+  "fill": {
+    "linear-gradient": [
+      "srgb:0.98431,0.98431,0.97647,1.00000",
+      "srgb:0.89412,0.89804,0.88235,1.00000"
+    ],
+    "orientation": {
+      "start": {
+        "x": 0.5,
+        "y": 0
+      },
+      "stop": {
+        "x": 0.5,
+        "y": 1
+      }
+    }
+  },
+  "fill-specializations": [
+    {
+      "appearance": "dark",
+      "value": {
+        "linear-gradient": [
+          "srgb:0.16863,0.18431,0.21569,1.00000",
+          "srgb:0.06667,0.07451,0.09412,1.00000"
+        ],
+        "orientation": {
+          "start": {
+            "x": 0.5,
+            "y": 0
+          },
+          "stop": {
+            "x": 0.5,
+            "y": 1
+          }
+        }
+      }
+    }
+  ],
+  "groups": [
+    {
+      "name": "Fold",
+      "layers": [
+        {
+          "name": "fold",
+          "image-name": "fold.svg",
+          "glass": true,
+          "fill-specializations": [
+            {
+              "appearance": "dark",
+              "value": {
+                "solid": "srgb:0.96078,0.96078,0.94902,1.00000"
+              }
+            }
+          ]
+        }
+      ],
+      "shadow": {
+        "kind": "neutral",
+        "opacity": 0.55
+      },
+      "translucency": {
+        "enabled": true,
+        "value": 0.15
+      },
+      "lighting": "individual",
+      "specular": true
+    },
+    {
+      "name": "Tab",
+      "layers": [
+        {
+          "name": "tab",
+          "image-name": "tab.svg",
+          "glass": true
+        }
+      ],
+      "shadow": {
+        "kind": "layer-color",
+        "opacity": 0.5
+      },
+      "translucency": {
+        "enabled": true,
+        "value": 0.35
+      },
+      "lighting": "individual",
+      "specular": true
+    }
+  ],
+  "supported-platforms": {
+    "squares": "shared"
+  }
+}

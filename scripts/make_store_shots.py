@@ -87,7 +87,7 @@ if __name__ == "__main__":
     for i, (src, t, s, th) in enumerate(iphone, 1):
         p = os.path.join(RAW, src)
         if os.path.exists(p):
-            portrait(p, os.path.join(OUT, f"iPhone-6.9-{i}.png"), (1320, 2868), t, s, th, scale=0.80, radius=150, top=150)
+            portrait(p, os.path.join(OUT, f"iPhone-6.3-{i}.png"), (1206, 2622), t, s, th, scale=0.80, radius=150, top=150)
     ipad = [
         ("ipad-1-grid.png", "Your clipboard, organized.", "Collections, favorites, and snippets.", LIGHT),
         ("ipad-3-search.png", "Find anything in seconds.", "Search across everything you’ve kept.", LIGHT),

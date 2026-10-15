@@ -7,6 +7,8 @@ struct MasonryLayout: Layout {
     var spacing: CGFloat = 16
 
     private func columns(for width: CGFloat) -> (count: Int, width: CGFloat) {
+        // SwiftUI may propose an unbounded or zero width while measuring; fall back to one column.
+        guard width.isFinite, width > 0 else { return (1, minColumnWidth) }
         let count = max(1, Int((width + spacing) / (minColumnWidth + spacing)))
         return (count, (width - CGFloat(count - 1) * spacing) / CGFloat(count))
     }
@@ -24,7 +26,8 @@ struct MasonryLayout: Layout {
     }
 
     func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
-        let width = proposal.width ?? 800
+        let proposed = proposal.width ?? 800
+        let width = proposed.isFinite && proposed > 0 ? proposed : minColumnWidth
         let height = frames(width: width, subviews: subviews).map(\.maxY).max() ?? 0
         return CGSize(width: width, height: height)
     }

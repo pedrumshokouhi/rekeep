@@ -22,7 +22,7 @@
 | Release builds (Mac, iOS + Share + Keyboard) | succeed; Mac 0 warnings; iOS 2 benign tool notices |
 | Contrast (WCAG) | body ≥ 6.2:1, metadata ≥ 5.0:1, white-on-jade buttons 4.6:1 (measured) |
 | Largest Dynamic Type (iPhone) | cards reflow; colour labels and glyphs scale |
-| Light/dark, iPhone, iPad, Mac renders | reviewed; defects found and fixed (code overflow, image sizing, iPad dimming/overlap, Compose clutter, empty inspector, dark logo) |
+| Light/dark, iPhone, iPad, Mac renders | reviewed; defects found and fixed (code overflow, image sizing, iPad dimming/overlap, Compose clutter, empty inspector, dark logo, an iPad layout crash on unbounded width) |
 
 ## Deliberately not in 1.0
 

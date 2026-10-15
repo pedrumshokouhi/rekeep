@@ -39,11 +39,12 @@ private struct BottomFade: ViewModifier {
 private struct TextContent: View {
     let text: String
     let mode: ClipContentView.Mode
+    @Environment(\.searchTerms) private var terms
 
     var body: some View {
         switch mode {
         case .card:
-            Text(excerpt)
+            Text(SearchHighlight.attributed(excerpt, terms: terms))
                 .font(.cardBody)
                 .foregroundStyle(Palette.ink)
                 .lineSpacing(2)

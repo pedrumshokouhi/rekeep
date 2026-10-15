@@ -13,7 +13,7 @@ APP_GROUP = "group.com.pedrumshokouhi.rekeep"
 
 TARGETS = [
     dict(
-        name="Rekeep", folders=["Mac", "Shared"], product="Rekeep", type="app",
+        name="Rekeep", folders=["Mac", "Shared", "SharedApp"], product="Rekeep", type="app",
         bundle="com.pedrumshokouhi.rekeep",
         settings={
             "MACOSX_DEPLOYMENT_TARGET": "15.0",
@@ -31,9 +31,9 @@ TARGETS = [
         },
     ),
     dict(
-        name="RekeepMobile", folders=["iOS/App", "Shared"], product="Rekeep", type="app",
+        name="RekeepMobile", folders=["iOS/App", "Shared", "SharedApp", "iOS/KeyboardUI"], product="Rekeep", type="app",
         bundle="com.pedrumshokouhi.rekeep",
-        embeds=["RekeepShare"],
+        embeds=["RekeepShare", "RekeepKeyboard"],
         settings={
             "IPHONEOS_DEPLOYMENT_TARGET": "18.0",
             "SDKROOT": "iphoneos",
@@ -73,8 +73,41 @@ TARGETS = [
     ),
 ]
 
-PRODUCT_TYPES = {"app": "com.apple.product-type.application", "extension": "com.apple.product-type.app-extension"}
-WRAPPERS = {"app": ("wrapper.application", ".app"), "extension": ("wrapper.app-extension", ".appex")}
+TARGETS.append(dict(
+    name="RekeepKeyboard", folders=["iOS/Keyboard", "Shared", "iOS/KeyboardUI"], product="RekeepKeyboard", type="extension",
+    bundle="com.pedrumshokouhi.rekeep.keyboard",
+    exceptions={"iOS/Keyboard": ["Info.plist"]},
+    settings={
+        "IPHONEOS_DEPLOYMENT_TARGET": "18.0",
+        "SDKROOT": "iphoneos",
+        "SUPPORTED_PLATFORMS": "iphoneos iphonesimulator",
+        "TARGETED_DEVICE_FAMILY": "1,2",
+        "CODE_SIGN_ENTITLEMENTS": "iOS/Keyboard/RekeepKeyboard.entitlements",
+        "INFOPLIST_FILE": "iOS/Keyboard/Info.plist",
+        "INFOPLIST_KEY_CFBundleDisplayName": "Rekeep",
+        "SKIP_INSTALL": "YES",
+        "APPLICATION_EXTENSION_API_ONLY": "YES",
+        "LD_RUNPATH_SEARCH_PATHS": ["$(inherited)", "@executable_path/Frameworks", "@executable_path/../../Frameworks"],
+    },
+))
+
+TARGETS.append(dict(
+    name="RekeepMobileTests", folders=["iOS/Tests"], product="RekeepMobileTests", type="unittest",
+    bundle="com.pedrumshokouhi.rekeep.tests", host="RekeepMobile",
+    settings={
+        "IPHONEOS_DEPLOYMENT_TARGET": "18.0",
+        "SDKROOT": "iphoneos",
+        "SUPPORTED_PLATFORMS": "iphoneos iphonesimulator",
+        "TARGETED_DEVICE_FAMILY": "1,2",
+        "TEST_HOST": "$(BUILT_PRODUCTS_DIR)/Rekeep.app/Rekeep",
+        "BUNDLE_LOADER": "$(TEST_HOST)",
+        "SWIFT_DEFAULT_ACTOR_ISOLATION": "nonisolated",
+        "LD_RUNPATH_SEARCH_PATHS": ["$(inherited)", "@executable_path/Frameworks", "@loader_path/Frameworks"],
+    },
+))
+
+PRODUCT_TYPES = {"app": "com.apple.product-type.application", "extension": "com.apple.product-type.app-extension", "unittest": "com.apple.product-type.bundle.unit-test"}
+WRAPPERS = {"app": ("wrapper.application", ".app"), "extension": ("wrapper.app-extension", ".appex"), "unittest": ("wrapper.cfbundle", ".xctest")}
 
 counter = [0x10]
 def new():
@@ -161,6 +194,12 @@ for t in TARGETS:
         phases.append(copy)
         deps.append(dep)
 
+    if t.get("host"):
+        dep, proxy = new(), new()
+        add("PBXContainerItemProxy", f"\t\t{proxy} = {{isa = PBXContainerItemProxy; containerPortal = {project_id}; proxyType = 1; remoteGlobalIDString = {target_ids[t['host']]}; remoteInfo = {t['host']}; }};")
+        add("PBXTargetDependency", f"\t\t{dep} = {{isa = PBXTargetDependency; target = {target_ids[t['host']]}; targetProxy = {proxy}; }};")
+        deps.append(dep)
+
     ts = {
         "ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME": "AccentColor",
         "CODE_SIGN_STYLE": "Automatic",
@@ -243,4 +282,33 @@ path = os.path.join(ROOT, "Rekeep.xcodeproj")
 os.makedirs(path, exist_ok=True)
 with open(os.path.join(path, "project.pbxproj"), "w") as f:
     f.write("\n".join(out))
+def scheme(name, build_target, test_target=None, storekit=None):
+    def ref(t):
+        prod = next(x for x in TARGETS if x["name"] == t)
+        ext = WRAPPERS[prod["type"]][1]
+        return (f'<BuildableReference BuildableIdentifier = "primary" BlueprintIdentifier = "{target_ids[t]}" '
+                f'BuildableName = "{prod["product"]}{ext}" BlueprintName = "{t}" ReferencedContainer = "container:Rekeep.xcodeproj"></BuildableReference>')
+    tests = (f'<Testables><TestableReference skipped = "NO">{ref(test_target)}</TestableReference></Testables>' if test_target else "<Testables></Testables>")
+    sk = f'<StoreKitConfigurationFileReference identifier = "../../{storekit}"></StoreKitConfigurationFileReference>' if storekit else ""
+    xml = f"""<?xml version="1.0" encoding="UTF-8"?>
+<Scheme LastUpgradeVersion = "2700" version = "1.7">
+<BuildAction parallelizeBuildables = "YES" buildImplicitDependencies = "YES">
+<BuildActionEntries><BuildActionEntry buildForTesting = "YES" buildForRunning = "YES" buildForProfiling = "YES" buildForArchiving = "YES" buildForAnalyzing = "YES">{ref(build_target)}</BuildActionEntry></BuildActionEntries>
+</BuildAction>
+<TestAction buildConfiguration = "Debug" selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB" selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB" shouldUseLaunchSchemeArgsEnv = "YES">{tests}</TestAction>
+<LaunchAction buildConfiguration = "Debug" selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB" selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB" launchStyle = "0" useCustomWorkingDirectory = "NO" ignoresPersistentStateOnLaunch = "NO" debugDocumentVersioning = "YES" debugServiceExtension = "internal" allowLocationSimulation = "YES">
+<BuildableProductRunnable runnableDebuggingMode = "0">{ref(build_target)}</BuildableProductRunnable>{sk}
+</LaunchAction>
+<ProfileAction buildConfiguration = "Release" shouldUseLaunchSchemeArgsEnv = "YES" savedToolIdentifier = "" useCustomWorkingDirectory = "NO" debugDocumentVersioning = "YES"></ProfileAction>
+<AnalyzeAction buildConfiguration = "Debug"></AnalyzeAction>
+<ArchiveAction buildConfiguration = "Release" revealArchiveInOrganizer = "YES"></ArchiveAction>
+</Scheme>
+"""
+    d = os.path.join(path, "xcshareddata", "xcschemes")
+    os.makedirs(d, exist_ok=True)
+    with open(os.path.join(d, name + ".xcscheme"), "w") as f:
+        f.write(xml)
+
+scheme("Rekeep", "Rekeep")
+scheme("RekeepMobile", "RekeepMobile", test_target="RekeepMobileTests", storekit="iOS/Tests/Rekeep.storekit")
 print("wrote", path)

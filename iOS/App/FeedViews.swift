@@ -49,6 +49,9 @@ final class FeedState {
         case .snippets: q.snippetsOnly = true
         case .collection(let id): q.collectionID = id
         }
+        if let cap = PurchaseManager.shared.historyLimit, scope == .history, query.isEmpty, kind == nil {
+            q.limit = max(0, min(q.limit, cap - q.offset))
+        }
         let query = q
         Task {
             let result = await Task.detached(priority: .userInitiated) { (try? store.fetch(query)) ?? [] }.value
@@ -101,6 +104,7 @@ struct PhoneRootView: View {
             .scrollContentBackground(.hidden)
             .background(Palette.shelfSolid.opacity(0.5).ignoresSafeArea())
             .environment(\.editMode, $editMode)
+            .environment(\.searchTerms, SearchHighlight.terms(feed.query))
             .navigationTitle(feed.title(model))
             .navigationDestination(for: UUID.self) { id in ClipDetailView(clipID: id) }
             .searchable(text: $feed.query, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search clips")
@@ -153,7 +157,15 @@ struct PhoneRootView: View {
             }
             .sheet(isPresented: $showingSettings) { MobileSettingsView() }
         }
-        .onAppear { feed.model = model; feed.reload() }
+        .onAppear {
+            feed.model = model
+            #if DEBUG
+            if let i = ProcessInfo.processInfo.arguments.firstIndex(of: "-qa.query"), i + 1 < ProcessInfo.processInfo.arguments.count {
+                feed.query = ProcessInfo.processInfo.arguments[i + 1]
+            }
+            #endif
+            feed.reload()
+        }
         .onChange(of: model.revision) { _, _ in feed.reload() }
     }
 }
@@ -275,6 +287,7 @@ struct PadRootView: View {
                 }
             }
             .animation(Motion.panel, value: showsInspector)
+            .environment(\.searchTerms, SearchHighlight.terms(feed.query))
             .navigationTitle(feed.title(model))
             .searchable(text: $feed.query, prompt: "Search clips")
             .toolbar {
@@ -301,7 +314,22 @@ struct PadRootView: View {
             .onKeyPress(.delete) { if !feed.selection.isEmpty { model.delete(Array(feed.selection)) }; return .handled }
         }
         .navigationSplitViewStyle(.balanced)
-        .onAppear { feed.model = model; feed.reload() }
+        #if DEBUG
+        .task {
+            guard ProcessInfo.processInfo.arguments.contains("-qa.select") else { return }
+            try? await Task.sleep(for: .seconds(2.5))
+            if let first = feed.clips.dropFirst(1).first { feed.selection = [first.id]; detailID = first.id; showsInspector = true }
+        }
+        #endif
+        .onAppear {
+            feed.model = model
+            #if DEBUG
+            if let i = ProcessInfo.processInfo.arguments.firstIndex(of: "-qa.query"), i + 1 < ProcessInfo.processInfo.arguments.count {
+                feed.query = ProcessInfo.processInfo.arguments[i + 1]
+            }
+            #endif
+            feed.reload()
+        }
         .onChange(of: model.revision) { _, _ in feed.reload() }
         .sheet(isPresented: $showingSettings) { MobileSettingsView() }
         .alert("New Collection", isPresented: $newCollection) {
@@ -314,7 +342,7 @@ struct PadRootView: View {
     private var grid: some View {
         ScrollView {
             if feed.clips.isEmpty { MobileEmptyState(feed: feed) }
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 250, maximum: 380), spacing: 16)], spacing: 16) {
+            MasonryLayout(minColumnWidth: 250, spacing: 16) {
                 ForEach(feed.clips) { clip in
                     MobileClipCard(clip: clip, compact: true, isSelected: feed.selection.contains(clip.id))
                         .onTapGesture(count: 2) { model.copy(clip) }

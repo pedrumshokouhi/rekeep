@@ -69,7 +69,7 @@ final class AppSettings {
     private let defaults: UserDefaults
     private var isLoading = true
 
-    var privacy = PrivacySettings() { didSet { save(privacy, "privacy") } }
+    var privacy = PrivacySettings() { didSet { save(privacy, "privacy"); SharedStorage.privacy = privacy } }
     var density: ShelfDensity = .comfortable { didSet { save(density, "density") } }
     var useListLayout = false { didSet { save(useListLayout, "useListLayout") } }
     var retention: HistoryRetention = .month { didSet { save(retention, "retention") } }

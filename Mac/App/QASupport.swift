@@ -62,7 +62,9 @@ enum QASupport {
         for (i, window) in NSApp.windows.enumerated() where window.isVisible {
             guard let view = window.contentView, view.bounds.width > 10 else { continue }
             let bounds = view.bounds
-            guard let rep = view.bitmapImageRepForCachingDisplay(in: bounds) else { continue }
+            // Always 2× so App Store screenshots are Retina-sharp regardless of this display.
+            guard let rep = NSBitmapImageRep(bitmapDataPlanes: nil, pixelsWide: Int(bounds.width * 2), pixelsHigh: Int(bounds.height * 2), bitsPerSample: 8, samplesPerPixel: 4, hasAlpha: true, isPlanar: false, colorSpaceName: .deviceRGB, bytesPerRow: 0, bitsPerPixel: 0) else { continue }
+            rep.size = bounds.size
             view.cacheDisplay(in: bounds, to: rep)
             let name = (window.title.isEmpty ? (window is FloatingPanel ? "panel" : "window") : window.title)
                 .replacingOccurrences(of: " ", with: "-")

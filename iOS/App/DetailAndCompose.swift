@@ -148,30 +148,23 @@ struct MobileComposeView: View {
                 }
                 Section {
                     ForEach($items) { $item in
-                        VStack(alignment: .leading, spacing: 6) {
-                            HStack(alignment: .top) {
-                                Button { item.isIncluded.toggle() } label: {
-                                    Image(systemName: item.isIncluded ? "checkmark.circle.fill" : "circle")
-                                        .foregroundStyle(item.isIncluded ? Palette.jade : Palette.inkTertiary)
-                                        .font(.title3)
-                                }
-                                .buttonStyle(.plain)
-                                .accessibilityLabel(item.isIncluded ? "Included" : "Excluded")
-                                Text(item.snapshot).font(.subheadline).lineLimit(3)
-                                    .foregroundStyle(item.isIncluded ? Palette.ink : Palette.inkTertiary)
-                            }
-                            TextField("Heading (optional)", text: $item.heading).font(.footnote)
-                            TextField("Note (optional)", text: $item.note).font(.footnote)
-                        }
-                        .padding(.vertical, 4)
+                        ComposeSourceRow(item: $item)
                     }
                     .onMove { items.move(fromOffsets: $0, toOffset: $1) }
-                    .onDelete { items.remove(atOffsets: $0) }
                 } header: {
                     Text("Sources — drag to reorder")
+                } footer: {
+                    Text("Tap the circle to leave a source out. Your original clips are never changed.")
                 }
                 Section("Output") {
                     Text(output).font(.system(.footnote, design: options.format == .plainText ? .default : .monospaced)).textSelection(.enabled)
+                }
+                Section {
+                    Button("Save Composition") {
+                        try? model.store.save(Composition(items: items, options: options))
+                        model.show(MobileToast(title: "Composition saved"))
+                    }
+                    .disabled(items.isEmpty)
                 }
             }
             .environment(\.editMode, .constant(.active))
@@ -183,17 +176,44 @@ struct MobileComposeView: View {
                     ShareLink(item: output) { Image(systemName: "square.and.arrow.up") }
                     Button("Copy") { model.copy(text: output) }.bold()
                 }
-                ToolbarItem(placement: .bottomBar) {
-                    Button("Save Composition") {
-                        try? model.store.save(Composition(items: items, options: options))
-                        model.show(MobileToast(title: "Composition saved"))
-                    }
-                    .disabled(items.isEmpty)
-                }
             }
         }
         .onAppear {
             items = model.store.clips(model.composeIDs).map { ComposeItem(clip: $0) }
         }
+    }
+}
+
+private struct ComposeSourceRow: View {
+    @Binding var item: ComposeItem
+    @State private var expanded = false
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack(alignment: .top, spacing: 10) {
+                Button { item.isIncluded.toggle() } label: {
+                    Image(systemName: item.isIncluded ? "checkmark.circle.fill" : "circle")
+                        .foregroundStyle(item.isIncluded ? Palette.jade : Palette.inkTertiary)
+                        .font(.title3)
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(item.isIncluded ? "Included" : "Left out")
+                VStack(alignment: .leading, spacing: 4) {
+                    if !item.heading.isEmpty { Text(item.heading).font(.subheadline.weight(.semibold)) }
+                    Text(item.snapshot).font(.subheadline).lineLimit(3)
+                        .foregroundStyle(item.isIncluded ? Palette.ink : Palette.inkTertiary)
+                    Button(expanded ? "Done" : (item.heading.isEmpty && item.note.isEmpty ? "Add heading or note" : "Edit heading or note")) {
+                        withAnimation(Motion.micro) { expanded.toggle() }
+                    }
+                    .font(.caption.weight(.medium))
+                    .buttonStyle(.borderless)
+                }
+            }
+            if expanded {
+                TextField("Heading", text: $item.heading).font(.footnote).textFieldStyle(.roundedBorder)
+                TextField("Note", text: $item.note, axis: .vertical).font(.footnote).textFieldStyle(.roundedBorder)
+            }
+        }
+        .padding(.vertical, 4)
     }
 }

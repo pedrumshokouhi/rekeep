@@ -29,6 +29,7 @@ struct ShelfView: View {
         .onChange(of: app.revision) { _, _ in if shelf.isVisible { shelf.refreshIfNeeded() } }
         .onAppear { searchFocused = true }
         .environment(\.controlActiveState, .key)
+        .environment(\.searchTerms, SearchHighlight.terms(shelf.query))
     }
 
     @ViewBuilder private var content: some View {

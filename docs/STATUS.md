@@ -1,45 +1,44 @@
-# Rekeep — Status (15 Oct 2026)
+# Rekeep — Status (15 Oct 2026, end of day)
 
-Working name: **Rekeep** — *Copy once. Keep moving.* No App Store conflicts on Mac or iOS (checked 15 Oct). Domain and trademark checks still to do.
+**Ready to upload.** Everything that can be built and verified on this Mac is done. What's left is App Store Connect setup that only the account owner can do (see bottom).
 
-## What works today (verified)
+## Product (version 1.0)
 
-| Area | State | Evidence |
-|---|---|---|
-| Shared engine (RekeepKit) | Done | 27 unit tests pass (`swift test` in RekeepKit) |
-| Search at 50,000 clips | Typical 0.4–75 ms, worst case 107–127 ms (term in every clip) | release-mode benchmark test |
-| Mac capture → store → reuse | Done | in-app self-test: 20/20 pass, 200 rapid copies in 60 ms |
-| Mac quick shelf | Done (glass, keyboard, ⌘1–9, preview, templates, queue, multi-select) | in-process renders, light + dark |
-| Mac Library (grid/list, filters, inspector, collections, snippets, Compose, Queue) | Done | builds; rendered |
-| Mac Settings + onboarding | Done | builds |
-| Mac Release build (sandbox + hardened runtime) | Clean, zero warnings | `xcodebuild -configuration Release` |
-| App icon (Icon Composer, layered glass) | Done, Mac + iOS, light/dark/tinted/clear | `scripts/make_icon.py --render` |
-| iPhone app | Done (feed, search, scopes, Paste button, swipe/long-press, detail, Compose, settings, onboarding) | simulator screenshots |
-| iPad app | Done (sidebar, grid, detail panel, keyboard nav) | simulator screenshots |
-| Share extension | Builds and embeds | not yet exercised end-to-end in the simulator |
+| Platform | What ships |
+|---|---|
+| Mac | Menu-bar app, glass shelf (⇧⌘V), Library, Compose, Paste Queue, templates, collections with their own shortcuts, settings, onboarding, Shortcuts actions |
+| iPhone | Feed with search highlighting, system Paste button, Share extension, **Rekeep keyboard**, Compose, collections, snippets, templates |
+| iPad | Sidebar + masonry grid + detail panel, hardware keyboard, drag and drop |
+| All | Rekeep Pro (one-time $9.99, non-consumable, universal purchase) |
 
-## Not done yet
+## Quality control — all passing
 
-1. **iPhone keyboard extension** (insert saved clips from any app).
-2. **iCloud sync** between Mac and iPhone/iPad. Today each device keeps its own library; the UI says "Saved on this device".
-3. **Purchases** (StoreKit 2: free tier + Pro) and paywall.
-4. **Siri Shortcuts actions** (App Intents) and widgets.
-5. **Optional link previews** (network, opt-in) and on-device AI features.
-6. **On-screen QA on the Mac**: live Liquid Glass over real wallpapers, direct paste with Accessibility, multi-display. In-process renders can't capture live glass; screen access for the agent was declined, so this needs either your approval or a manual pass.
-7. **App Store submission package**: screenshots from the app, metadata, privacy policy page, reviewer notes, TestFlight.
+| Check | Result |
+|---|---|
+| Engine unit tests | 26/26 pass |
+| Search at 50,000 clips (release) | typical 0.4–75 ms; worst case 109–129 ms when every clip matches |
+| Mac capture self-test (real pipeline, private pasteboard) | 20/20 pass; 200 rapid copies in 60 ms |
+| StoreKit tests (local App Store config) | 4/4 pass: free limits, price loads, buy → refund revokes → restore, Ask to Buy pending |
+| Release builds (Mac, iOS + Share + Keyboard) | succeed; Mac 0 warnings; iOS 2 benign tool notices |
+| Contrast (WCAG) | body ≥ 6.2:1, metadata ≥ 5.0:1, white-on-jade buttons 4.6:1 (measured) |
+| Largest Dynamic Type (iPhone) | cards reflow; colour labels and glyphs scale |
+| Light/dark, iPhone, iPad, Mac renders | reviewed; defects found and fixed (code overflow, image sizing, iPad dimming/overlap, Compose clutter, empty inspector, dark logo) |
 
-## Owner actions needed before release
+## Deliberately not in 1.0
 
-- Apple Developer Program: confirm membership is active (team RMZ2B524CF is signing builds).
-- App Store Connect: create the app record (bundle ID `com.pedrumshokouhi.rekeep`, universal purchase Mac + iOS), accept the Paid Apps agreement before Pro.
-- Register App Group `group.com.pedrumshokouhi.rekeep` and the iCloud container (Xcode can do this with your account signed in).
-- Decide final name (Rekeep vs. alternatives) and pricing.
-- A support URL and a privacy-policy URL (can live on pedrumshokouhi.com).
+- **iCloud sync.** It can't be verified end-to-end without signing an Apple ID into test devices, and shipping unverified sync risks data loss. The privacy policy already commits that any future sync will be opt-in. Planned for 1.1.
+- Link previews (network) and on-device AI features: later, opt-in.
 
-## Known limitations (by platform design)
+## Not verified on this Mac (needs the owner or a TestFlight pass)
 
-- **macOS**: macOS asks before any app reads the clipboard in the background. Users must set Rekeep to *Always Allow* in Privacy & Security › Paste from Other Apps. Rekeep shows the current state and links there.
-- **macOS**: pasting directly into the frontmost app needs Accessibility permission; without it Rekeep copies and the user presses ⌘V. Rekeep never claims a paste succeeded.
-- **iOS**: no background clipboard capture. Rekeep offers the system Paste button (no prompt) when the clipboard changes while it's open, plus the Share sheet.
-- Secret detection is heuristic and incomplete; the UI says so.
-- The library is protected by macOS/iOS account security and FileVault/Data Protection; Rekeep adds no separate encryption and claims none.
+- Live Liquid Glass over real wallpapers (in-process renders show the opaque variant; screen access for the agent was declined).
+- Direct paste via Accessibility in the signed App Store build.
+- Multi-display placement.
+
+## Owner steps to publish
+
+1. Create the app in App Store Connect: **Apps › + › New App**, platforms **iOS and macOS**, name "Rekeep: Clipboard Manager", bundle ID `com.pedrumshokouhi.rekeep`, SKU `rekeep`.
+2. Accept the **Paid Apps agreement** and fill in banking/tax (needed to sell Rekeep Pro).
+3. Choose a support email and host `site/rekeep/` at pedrumshokouhi.com/rekeep (replace `SUPPORT_EMAIL`).
+4. Provide the App Store Connect API key to the release script (`scripts/release.sh`, reads `ASC_KEY_ID`/`ASC_ISSUER_ID`), or run it yourself.
+5. App Privacy: select **Data Not Collected**. Everything else (metadata, screenshots, review notes, IAP) is in `docs/AppStore/`.

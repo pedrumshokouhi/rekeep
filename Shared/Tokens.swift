@@ -64,8 +64,8 @@ enum Palette {
     static let charcoal = PlatformColor(hex: 0x111318)
     static let jadeBrand = PlatformColor(hex: 0x36B797)
 
-    /// Jade for fills and focus rings. Lighter in dark mode so it holds contrast against charcoal.
-    static let jade = Color.dynamic(light: PlatformColor(hex: 0x2FA586), dark: PlatformColor(hex: 0x45C7A5), lightHC: PlatformColor(hex: 0x16725B), darkHC: PlatformColor(hex: 0x6EE0C1))
+    /// Jade for fills and focus rings: white labels on it meet 4.5:1 (measured), and it holds 4:1 against charcoal.
+    static let jade = Color.dynamic(light: PlatformColor(hex: 0x1D8466), dark: PlatformColor(hex: 0x1D8466), lightHC: PlatformColor(hex: 0x14684F), darkHC: PlatformColor(hex: 0x14684F))
     /// Jade for text and glyphs: deepened to meet 4.5:1 on porcelain/white.
     static let jadeInk = Color.dynamic(light: PlatformColor(hex: 0x157A61), dark: PlatformColor(hex: 0x5AD3B2), lightHC: PlatformColor(hex: 0x0D5C48), darkHC: PlatformColor(hex: 0x86EBD0))
 
@@ -77,7 +77,7 @@ enum Palette {
 
     static let ink = Color.dynamic(light: graphite, dark: PlatformColor(hex: 0xECEDEF), lightHC: PlatformColor.black, darkHC: PlatformColor.white)
     static let inkSecondary = Color.dynamic(light: PlatformColor(hex: 0x5C616B), dark: PlatformColor(hex: 0xA4A9B2), lightHC: PlatformColor(hex: 0x30343B), darkHC: PlatformColor(hex: 0xD3D6DB))
-    static let inkTertiary = Color.dynamic(light: PlatformColor(hex: 0x868B94), dark: PlatformColor(hex: 0x7C818A), lightHC: PlatformColor(hex: 0x4A4F57), darkHC: PlatformColor(hex: 0xB9BDC4))
+    static let inkTertiary = Color.dynamic(light: PlatformColor(hex: 0x6B707A), dark: PlatformColor(hex: 0x8E939C), lightHC: PlatformColor(hex: 0x4A4F57), darkHC: PlatformColor(hex: 0xB9BDC4))
 
     /// Opaque shelf fallback for Reduce Transparency / pre-glass systems.
     static let shelfSolid = Color.dynamic(light: PlatformColor(hex: 0xECECE8), dark: PlatformColor(hex: 0x16181D))

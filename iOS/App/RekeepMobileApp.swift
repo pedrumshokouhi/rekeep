@@ -36,7 +36,24 @@ struct RootView: View {
             if scenePhase != .active { PrivacyCover() }
         }
         .sheet(item: $model.templateClip) { clip in TemplateSheet(clip: clip) }
+        .sheet(item: Binding(get: { PurchaseManager.shared.paywallReason }, set: { PurchaseManager.shared.paywallReason = $0 })) { reason in
+            PaywallView(reason: reason).presentationDetents([.large])
+        }
         .fullScreenCover(isPresented: $model.isComposing) { MobileComposeView() }
+        #if DEBUG
+        .overlay(alignment: .bottom) {
+            // QA: render the keyboard extension's UI inside the app for screenshots.
+            if ProcessInfo.processInfo.arguments.contains("-qa.keyboard") { QAKeyboardPreview() }
+        }
+        .onAppear {
+            let args = ProcessInfo.processInfo.arguments
+            if args.contains("-qa.paywall") { PurchaseManager.shared.paywallReason = .history }
+            if args.contains("-qa.compose") {
+                model.composeIDs = (try? model.store.fetch(ClipQuery(kinds: [.text, .link], limit: 3)).map(\.id)) ?? []
+                model.isComposing = !model.composeIDs.isEmpty
+            }
+        }
+        #endif
         .fullScreenCover(isPresented: Binding(get: { !model.hasCompletedOnboarding }, set: { if !$0 { model.hasCompletedOnboarding = true } })) {
             MobileOnboarding()
         }
@@ -249,3 +266,19 @@ struct TemplateSheet: View {
         .presentationDetents([.medium, .large])
     }
 }
+
+#if DEBUG
+/// The keyboard extension's view, hosted in the app for visual QA.
+private struct QAKeyboardPreview: View {
+    @State private var state = KeyboardState()
+    var body: some View {
+        VStack(spacing: 0) {
+            Text("Hello Ana, here’s the link: ").font(.body).padding().frame(maxWidth: .infinity, alignment: .leading).background(Palette.card)
+            KeyboardView(state: state)
+                .frame(height: 268)
+                .background(Color(uiColor: .systemGray5))
+        }
+        .onAppear { state.hasFullAccess = true; state.needsGlobe = true; state.load() }
+    }
+}
+#endif

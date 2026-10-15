@@ -28,9 +28,9 @@ struct LibraryView: View {
     @ViewBuilder private var detail: some View {
         switch model.section {
         case .compose:
-            ComposeView()
+            if PurchaseManager.shared.isPro { ComposeView() } else { ProLocked(feature: .compose) }
         case .queue:
-            QueueView()
+            if PurchaseManager.shared.isPro { QueueView() } else { ProLocked(feature: .queue) }
         default:
             ClipBrowser(model: model)
                 .inspector(isPresented: $model.showsInspector) {
@@ -187,6 +187,7 @@ private struct ClipBrowser: View {
             }
         }
         .animation(Motion.panel, value: model.selection.count > 1)
+        .environment(\.searchTerms, SearchHighlight.terms(model.query))
         .navigationTitle(model.title)
         .navigationSubtitle(subtitle)
         .searchable(text: $model.query, placement: .toolbar, prompt: "Search text, links, notes, tags")
@@ -246,6 +247,9 @@ private struct ClipBrowser: View {
                 }
                 .padding(Space.l)
                 .animation(Motion.reflow, value: model.clips.map(\.id))
+                if !PurchaseManager.shared.isPro, model.section == .history, model.query.isEmpty, model.clips.count >= FreeTier.visibleHistory {
+                    HistoryLimitNote()
+                }
             }
             .onGeometryChange(for: CGFloat.self, of: { $0.size.width }) { width = $0 }
             .onChange(of: model.revealID) { _, id in
@@ -612,5 +616,33 @@ private struct SnippetEditor: View {
         }
         .padding(Space.xl)
         .frame(width: 520)
+    }
+}
+
+/// Shown in place of a Pro workflow for Free users.
+struct ProLocked: View {
+    let feature: ProFeature
+    var body: some View {
+        VStack(spacing: Space.m) {
+            Image(systemName: feature == .compose ? "square.and.pencil" : "list.number").font(.system(size: 30, weight: .light)).foregroundStyle(Palette.inkTertiary)
+            Text(feature == .compose ? "Compose is part of Rekeep Pro" : "The Paste Queue is part of Rekeep Pro").font(.title3.weight(.semibold))
+            Text(feature.reason).foregroundStyle(.secondary).multilineTextAlignment(.center).frame(maxWidth: 380)
+            Button("See Rekeep Pro") { PurchaseManager.shared.paywallReason = feature }
+                .buttonStyle(.borderedProminent).tint(Palette.jade)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+}
+
+/// End-of-history note for Free users. Nothing is hidden from search, and nothing is deleted.
+struct HistoryLimitNote: View {
+    var body: some View {
+        VStack(spacing: 6) {
+            Text("Older clips are kept safely").font(.callout.weight(.semibold))
+            Text("Free shows your latest \(FreeTier.visibleHistory). Search still finds everything.").font(.caption).foregroundStyle(.secondary)
+            Button("Show All with Pro") { PurchaseManager.shared.paywallReason = .history }.buttonStyle(.link)
+        }
+        .padding(Space.l)
+        .frame(maxWidth: .infinity)
     }
 }

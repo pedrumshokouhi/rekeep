@@ -17,7 +17,7 @@ struct MobileClipCard: View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(spacing: 6) {
                 Image(systemName: clip.isTemplate ? "curlybraces" : clip.kind.symbol)
-                    .font(.system(size: 11, weight: .semibold))
+                    .font(.caption2.weight(.semibold))
                     .foregroundStyle(Palette.inkTertiary)
                 Text(ClipFormatting.typeLabel(for: clip))
                     .font(.footnote.weight(.semibold))
@@ -71,6 +71,7 @@ struct MobileClipContent: View {
     var mode: Mode
     @Environment(MobileModel.self) private var model
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.searchTerms) private var terms
     @State private var image: UIImage?
 
     private var isCard: Bool { if case .card = mode { return true } else { return false } }
@@ -79,7 +80,7 @@ struct MobileClipContent: View {
     var body: some View {
         switch clip.kind {
         case .text, .richText:
-            Text(isCard ? String((clip.text ?? clip.title).prefix(600)) : (clip.text ?? clip.title))
+            Text(SearchHighlight.attributed(isCard ? String((clip.text ?? clip.title).prefix(600)) : (clip.text ?? clip.title), terms: isCard ? terms : []))
                 .font(isCard ? .subheadline : .body)
                 .foregroundStyle(Palette.ink)
                 .lineLimit(isCard ? (compact ? 4 : 6) : nil)
@@ -133,11 +134,11 @@ struct MobileClipContent: View {
                     .fill(c.map { Color(.sRGB, red: $0.red, green: $0.green, blue: $0.blue, opacity: $0.alpha) } ?? Palette.cardSunken)
                     .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous).strokeBorder(Palette.cardStroke, lineWidth: 0.5))
                 Text(clip.colorValue ?? "")
-                    .font(.system(size: isCard ? 17 : 24, weight: .semibold, design: .monospaced))
+                    .font(.system(isCard ? .headline : .title2, design: .monospaced).weight(.semibold))
                     .foregroundStyle((c?.prefersDarkLabel ?? true) ? Color.black.opacity(0.78) : Color.white.opacity(0.94))
                     .padding(12)
             }
-            .frame(height: isCard ? (compact ? 72 : 96) : 220)
+            .frame(minHeight: isCard ? (compact ? 72 : 96) : 220)
         case .file:
             HStack(spacing: 12) {
                 Image(systemName: "doc.fill").font(.system(size: 30)).foregroundStyle(Palette.inkTertiary)

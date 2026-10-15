@@ -7,47 +7,68 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BB00002A0000000000000000 = {isa = PBXBuildFile; productRef = BB0000290000000000000000; };
-		BB0000340000000000000000 = {isa = PBXBuildFile; fileRef = BB0000210000000000000000; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		BB0000320000000000000000 = {isa = PBXBuildFile; productRef = BB0000310000000000000000; };
-		BB00003E0000000000000000 = {isa = PBXBuildFile; productRef = BB00003D0000000000000000; };
+		BB0000330000000000000000 = {isa = PBXBuildFile; productRef = BB0000320000000000000000; };
+		BB00003D0000000000000000 = {isa = PBXBuildFile; fileRef = BB0000250000000000000000; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		BB0000410000000000000000 = {isa = PBXBuildFile; fileRef = BB0000270000000000000000; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		BB00003B0000000000000000 = {isa = PBXBuildFile; productRef = BB00003A0000000000000000; };
+		BB00004B0000000000000000 = {isa = PBXBuildFile; productRef = BB00004A0000000000000000; };
+		BB0000530000000000000000 = {isa = PBXBuildFile; productRef = BB0000520000000000000000; };
+		BB00005B0000000000000000 = {isa = PBXBuildFile; productRef = BB00005A0000000000000000; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		BB0000360000000000000000 = {isa = PBXContainerItemProxy; containerPortal = BB0000110000000000000000; proxyType = 1; remoteGlobalIDString = BB0000200000000000000000; remoteInfo = RekeepShare; };
+		BB00003F0000000000000000 = {isa = PBXContainerItemProxy; containerPortal = BB0000110000000000000000; proxyType = 1; remoteGlobalIDString = BB0000240000000000000000; remoteInfo = RekeepShare; };
+		BB0000430000000000000000 = {isa = PBXContainerItemProxy; containerPortal = BB0000110000000000000000; proxyType = 1; remoteGlobalIDString = BB0000260000000000000000; remoteInfo = RekeepKeyboard; };
+		BB00005D0000000000000000 = {isa = PBXContainerItemProxy; containerPortal = BB0000110000000000000000; proxyType = 1; remoteGlobalIDString = BB0000220000000000000000; remoteInfo = RekeepMobile; };
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		BB0000330000000000000000 = {isa = PBXCopyFilesBuildPhase; buildActionMask = 2147483647; dstPath = ""; dstSubfolderSpec = 13; files = (BB0000340000000000000000, ); name = "Embed Foundation Extensions"; runOnlyForDeploymentPostprocessing = 0; };
+		BB00003C0000000000000000 = {isa = PBXCopyFilesBuildPhase; buildActionMask = 2147483647; dstPath = ""; dstSubfolderSpec = 13; files = (BB00003D0000000000000000, ); name = "Embed Foundation Extensions"; runOnlyForDeploymentPostprocessing = 0; };
+		BB0000400000000000000000 = {isa = PBXCopyFilesBuildPhase; buildActionMask = 2147483647; dstPath = ""; dstSubfolderSpec = 13; files = (BB0000410000000000000000, ); name = "Embed Foundation Extensions"; runOnlyForDeploymentPostprocessing = 0; };
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		BB00001D0000000000000000 = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rekeep.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		BB00001F0000000000000000 = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rekeep.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		BB0000210000000000000000 = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = RekeepShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		BB0000210000000000000000 = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rekeep.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BB0000230000000000000000 = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rekeep.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BB0000250000000000000000 = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = RekeepShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		BB0000270000000000000000 = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = RekeepKeyboard.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		BB0000290000000000000000 = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RekeepMobileTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		BB0000220000000000000000 = {
+		BB00002A0000000000000000 = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = BB0000200000000000000000;
+			target = BB0000240000000000000000;
+		};
+		BB00002B0000000000000000 = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = BB0000260000000000000000;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		BB0000180000000000000000 = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Mac; sourceTree = "<group>"; };
 		BB0000190000000000000000 = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Shared; sourceTree = "<group>"; };
-		BB00001A0000000000000000 = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = iOS/App; sourceTree = "<group>"; };
-		BB00001B0000000000000000 = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (BB0000220000000000000000, ); explicitFileTypes = {}; explicitFolders = (); path = iOS/Share; sourceTree = "<group>"; };
+		BB00001A0000000000000000 = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = SharedApp; sourceTree = "<group>"; };
+		BB00001B0000000000000000 = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = iOS/App; sourceTree = "<group>"; };
+		BB00001C0000000000000000 = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = iOS/KeyboardUI; sourceTree = "<group>"; };
+		BB00001D0000000000000000 = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (BB00002A0000000000000000, ); explicitFileTypes = {}; explicitFolders = (); path = iOS/Share; sourceTree = "<group>"; };
+		BB00001E0000000000000000 = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (BB00002B0000000000000000, ); explicitFileTypes = {}; explicitFolders = (); path = iOS/Keyboard; sourceTree = "<group>"; };
+		BB00001F0000000000000000 = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = iOS/Tests; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		BB0000270000000000000000 = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (BB00002A0000000000000000,); runOnlyForDeploymentPostprocessing = 0; };
-		BB00002F0000000000000000 = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (BB0000320000000000000000,); runOnlyForDeploymentPostprocessing = 0; };
-		BB00003B0000000000000000 = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (BB00003E0000000000000000,); runOnlyForDeploymentPostprocessing = 0; };
+		BB0000300000000000000000 = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (BB0000330000000000000000,); runOnlyForDeploymentPostprocessing = 0; };
+		BB0000380000000000000000 = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (BB00003B0000000000000000,); runOnlyForDeploymentPostprocessing = 0; };
+		BB0000480000000000000000 = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (BB00004B0000000000000000,); runOnlyForDeploymentPostprocessing = 0; };
+		BB0000500000000000000000 = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (BB0000530000000000000000,); runOnlyForDeploymentPostprocessing = 0; };
+		BB0000580000000000000000 = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (BB00005B0000000000000000,); runOnlyForDeploymentPostprocessing = 0; };
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -58,6 +79,10 @@
 				BB0000190000000000000000,
 				BB00001A0000000000000000,
 				BB00001B0000000000000000,
+				BB00001C0000000000000000,
+				BB00001D0000000000000000,
+				BB00001E0000000000000000,
+				BB00001F0000000000000000,
 				BB0000130000000000000000,
 			);
 			sourceTree = "<group>";
@@ -65,9 +90,11 @@
 		BB0000130000000000000000 = {
 			isa = PBXGroup;
 			children = (
-				BB00001D0000000000000000,
-				BB00001F0000000000000000,
 				BB0000210000000000000000,
+				BB0000230000000000000000,
+				BB0000250000000000000000,
+				BB0000270000000000000000,
+				BB0000290000000000000000,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -75,13 +102,13 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		BB00001C0000000000000000 /* Rekeep */ = {
+		BB0000200000000000000000 /* Rekeep */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = BB0000230000000000000000;
+			buildConfigurationList = BB00002C0000000000000000;
 			buildPhases = (
-				BB0000260000000000000000,
-				BB0000270000000000000000,
-				BB0000280000000000000000,
+				BB00002F0000000000000000,
+				BB0000300000000000000000,
+				BB0000310000000000000000,
 			);
 			buildRules = (
 			);
@@ -90,64 +117,118 @@
 			fileSystemSynchronizedGroups = (
 				BB0000180000000000000000,
 				BB0000190000000000000000,
+				BB00001A0000000000000000,
 			);
 			name = Rekeep;
 			packageProductDependencies = (
-				BB0000290000000000000000,
+				BB0000320000000000000000,
 			);
 			productName = Rekeep;
-			productReference = BB00001D0000000000000000;
+			productReference = BB0000210000000000000000;
 			productType = "com.apple.product-type.application";
 		};
-		BB00001E0000000000000000 /* RekeepMobile */ = {
+		BB0000220000000000000000 /* RekeepMobile */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = BB00002B0000000000000000;
+			buildConfigurationList = BB0000340000000000000000;
 			buildPhases = (
-				BB00002E0000000000000000,
-				BB00002F0000000000000000,
-				BB0000300000000000000000,
-				BB0000330000000000000000,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				BB0000350000000000000000,
-			);
-			fileSystemSynchronizedGroups = (
-				BB00001A0000000000000000,
-				BB0000190000000000000000,
-			);
-			name = RekeepMobile;
-			packageProductDependencies = (
-				BB0000310000000000000000,
-			);
-			productName = Rekeep;
-			productReference = BB00001F0000000000000000;
-			productType = "com.apple.product-type.application";
-		};
-		BB0000200000000000000000 /* RekeepShare */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = BB0000370000000000000000;
-			buildPhases = (
-				BB00003A0000000000000000,
-				BB00003B0000000000000000,
+				BB0000370000000000000000,
+				BB0000380000000000000000,
+				BB0000390000000000000000,
 				BB00003C0000000000000000,
+				BB0000400000000000000000,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				BB00003E0000000000000000,
+				BB0000420000000000000000,
 			);
 			fileSystemSynchronizedGroups = (
 				BB00001B0000000000000000,
 				BB0000190000000000000000,
+				BB00001A0000000000000000,
+				BB00001C0000000000000000,
+			);
+			name = RekeepMobile;
+			packageProductDependencies = (
+				BB00003A0000000000000000,
+			);
+			productName = Rekeep;
+			productReference = BB0000230000000000000000;
+			productType = "com.apple.product-type.application";
+		};
+		BB0000240000000000000000 /* RekeepShare */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BB0000440000000000000000;
+			buildPhases = (
+				BB0000470000000000000000,
+				BB0000480000000000000000,
+				BB0000490000000000000000,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				BB00001D0000000000000000,
+				BB0000190000000000000000,
 			);
 			name = RekeepShare;
 			packageProductDependencies = (
-				BB00003D0000000000000000,
+				BB00004A0000000000000000,
 			);
 			productName = RekeepShare;
-			productReference = BB0000210000000000000000;
+			productReference = BB0000250000000000000000;
 			productType = "com.apple.product-type.app-extension";
+		};
+		BB0000260000000000000000 /* RekeepKeyboard */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BB00004C0000000000000000;
+			buildPhases = (
+				BB00004F0000000000000000,
+				BB0000500000000000000000,
+				BB0000510000000000000000,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				BB00001E0000000000000000,
+				BB0000190000000000000000,
+				BB00001C0000000000000000,
+			);
+			name = RekeepKeyboard;
+			packageProductDependencies = (
+				BB0000520000000000000000,
+			);
+			productName = RekeepKeyboard;
+			productReference = BB0000270000000000000000;
+			productType = "com.apple.product-type.app-extension";
+		};
+		BB0000280000000000000000 /* RekeepMobileTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BB0000540000000000000000;
+			buildPhases = (
+				BB0000570000000000000000,
+				BB0000580000000000000000,
+				BB0000590000000000000000,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BB00005C0000000000000000,
+			);
+			fileSystemSynchronizedGroups = (
+				BB00001F0000000000000000,
+			);
+			name = RekeepMobileTests;
+			packageProductDependencies = (
+				BB00005A0000000000000000,
+			);
+			productName = RekeepMobileTests;
+			productReference = BB0000290000000000000000;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -159,9 +240,11 @@
 				LastSwiftUpdateCheck = 2700;
 				LastUpgradeCheck = 2700;
 				TargetAttributes = {
-					BB00001C0000000000000000 = { CreatedOnToolsVersion = 27.0; };
-					BB00001E0000000000000000 = { CreatedOnToolsVersion = 27.0; };
 					BB0000200000000000000000 = { CreatedOnToolsVersion = 27.0; };
+					BB0000220000000000000000 = { CreatedOnToolsVersion = 27.0; };
+					BB0000240000000000000000 = { CreatedOnToolsVersion = 27.0; };
+					BB0000260000000000000000 = { CreatedOnToolsVersion = 27.0; };
+					BB0000280000000000000000 = { CreatedOnToolsVersion = 27.0; };
 				};
 			};
 			buildConfigurationList = BB0000140000000000000000;
@@ -182,130 +265,138 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				BB00001C0000000000000000,
-				BB00001E0000000000000000,
 				BB0000200000000000000000,
+				BB0000220000000000000000,
+				BB0000240000000000000000,
+				BB0000260000000000000000,
+				BB0000280000000000000000,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		BB0000280000000000000000 = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
-		BB0000300000000000000000 = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
-		BB00003C0000000000000000 = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		BB0000310000000000000000 = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		BB0000390000000000000000 = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		BB0000490000000000000000 = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		BB0000510000000000000000 = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		BB0000590000000000000000 = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		BB0000260000000000000000 = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
-		BB00002E0000000000000000 = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
-		BB00003A0000000000000000 = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		BB00002F0000000000000000 = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		BB0000370000000000000000 = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		BB0000470000000000000000 = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		BB00004F0000000000000000 = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		BB0000570000000000000000 = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		BB0000350000000000000000 = {isa = PBXTargetDependency; target = BB0000200000000000000000; targetProxy = BB0000360000000000000000; };
+		BB00003E0000000000000000 = {isa = PBXTargetDependency; target = BB0000240000000000000000; targetProxy = BB00003F0000000000000000; };
+		BB0000420000000000000000 = {isa = PBXTargetDependency; target = BB0000260000000000000000; targetProxy = BB0000430000000000000000; };
+		BB00005C0000000000000000 = {isa = PBXTargetDependency; target = BB0000220000000000000000; targetProxy = BB00005D0000000000000000; };
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		BB0000240000000000000000 = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Mac/Rekeep.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				ENABLE_APP_SANDBOX = YES;
-				ENABLE_HARDENED_RUNTIME = YES;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = Rekeep;
-				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-				INFOPLIST_KEY_LSUIElement = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2026 Pedrum Shokouhi";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = "15.0";
-				PRODUCT_BUNDLE_IDENTIFIER = com.pedrumshokouhi.rekeep;
-				PRODUCT_NAME = Rekeep;
-				SDKROOT = macosx;
-				SUPPORTED_PLATFORMS = macosx;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-			};
-			name = Debug;
-		};
-		BB0000250000000000000000 = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Mac/Rekeep.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				ENABLE_APP_SANDBOX = YES;
-				ENABLE_HARDENED_RUNTIME = YES;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = Rekeep;
-				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-				INFOPLIST_KEY_LSUIElement = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2026 Pedrum Shokouhi";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = "15.0";
-				PRODUCT_BUNDLE_IDENTIFIER = com.pedrumshokouhi.rekeep;
-				PRODUCT_NAME = Rekeep;
-				SDKROOT = macosx;
-				SUPPORTED_PLATFORMS = macosx;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-			};
-			name = Release;
-		};
-		BB00002C0000000000000000 = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = iOS/App/Rekeep.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = Rekeep;
-				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Rekeep imports the photos you choose so you can reuse them later.";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = "18.0";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.pedrumshokouhi.rekeep;
-				PRODUCT_NAME = Rekeep;
-				SDKROOT = iphoneos;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
 		BB00002D0000000000000000 = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Mac/Rekeep.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Rekeep;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_LSUIElement = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2026 Pedrum Shokouhi";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = "15.0";
+				PRODUCT_BUNDLE_IDENTIFIER = com.pedrumshokouhi.rekeep;
+				PRODUCT_NAME = Rekeep;
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Debug;
+		};
+		BB00002E0000000000000000 = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Mac/Rekeep.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Rekeep;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_LSUIElement = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2026 Pedrum Shokouhi";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = "15.0";
+				PRODUCT_BUNDLE_IDENTIFIER = com.pedrumshokouhi.rekeep;
+				PRODUCT_NAME = Rekeep;
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Release;
+		};
+		BB0000350000000000000000 = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = iOS/App/Rekeep.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Rekeep;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Rekeep imports the photos you choose so you can reuse them later.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = "18.0";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.pedrumshokouhi.rekeep;
+				PRODUCT_NAME = Rekeep;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		BB0000360000000000000000 = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = iOS/App/Rekeep.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				ENABLE_PREVIEWS = YES;
@@ -336,7 +427,7 @@
 			};
 			name = Release;
 		};
-		BB0000380000000000000000 = {
+		BB0000450000000000000000 = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
@@ -364,7 +455,7 @@
 			};
 			name = Debug;
 		};
-		BB0000390000000000000000 = {
+		BB0000460000000000000000 = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
@@ -389,6 +480,114 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		BB00004D0000000000000000 = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = iOS/Keyboard/RekeepKeyboard.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = iOS/Keyboard/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Rekeep;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = "18.0";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.pedrumshokouhi.rekeep.keyboard;
+				PRODUCT_NAME = RekeepKeyboard;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		BB00004E0000000000000000 = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = iOS/Keyboard/RekeepKeyboard.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = iOS/Keyboard/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Rekeep;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = "18.0";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.pedrumshokouhi.rekeep.keyboard;
+				PRODUCT_NAME = RekeepKeyboard;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		BB0000550000000000000000 = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = "18.0";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.pedrumshokouhi.rekeep.tests;
+				PRODUCT_NAME = RekeepMobileTests;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Rekeep.app/Rekeep";
+			};
+			name = Debug;
+		};
+		BB0000560000000000000000 = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = "18.0";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.pedrumshokouhi.rekeep.tests;
+				PRODUCT_NAME = RekeepMobileTests;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Rekeep.app/Rekeep";
 			};
 			name = Release;
 		};
@@ -447,9 +646,11 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		BB0000230000000000000000 = {isa = XCConfigurationList; buildConfigurations = (BB0000240000000000000000, BB0000250000000000000000,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
-		BB00002B0000000000000000 = {isa = XCConfigurationList; buildConfigurations = (BB00002C0000000000000000, BB00002D0000000000000000,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
-		BB0000370000000000000000 = {isa = XCConfigurationList; buildConfigurations = (BB0000380000000000000000, BB0000390000000000000000,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+		BB00002C0000000000000000 = {isa = XCConfigurationList; buildConfigurations = (BB00002D0000000000000000, BB00002E0000000000000000,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+		BB0000340000000000000000 = {isa = XCConfigurationList; buildConfigurations = (BB0000350000000000000000, BB0000360000000000000000,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+		BB0000440000000000000000 = {isa = XCConfigurationList; buildConfigurations = (BB0000450000000000000000, BB0000460000000000000000,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+		BB00004C0000000000000000 = {isa = XCConfigurationList; buildConfigurations = (BB00004D0000000000000000, BB00004E0000000000000000,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+		BB0000540000000000000000 = {isa = XCConfigurationList; buildConfigurations = (BB0000550000000000000000, BB0000560000000000000000,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
 		BB0000140000000000000000 = {isa = XCConfigurationList; buildConfigurations = (BB0000150000000000000000, BB0000160000000000000000,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
 /* End XCConfigurationList section */
 
@@ -458,9 +659,11 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		BB0000290000000000000000 = {isa = XCSwiftPackageProductDependency; productName = RekeepKit; };
-		BB0000310000000000000000 = {isa = XCSwiftPackageProductDependency; productName = RekeepKit; };
-		BB00003D0000000000000000 = {isa = XCSwiftPackageProductDependency; productName = RekeepKit; };
+		BB0000320000000000000000 = {isa = XCSwiftPackageProductDependency; productName = RekeepKit; };
+		BB00003A0000000000000000 = {isa = XCSwiftPackageProductDependency; productName = RekeepKit; };
+		BB00004A0000000000000000 = {isa = XCSwiftPackageProductDependency; productName = RekeepKit; };
+		BB0000520000000000000000 = {isa = XCSwiftPackageProductDependency; productName = RekeepKit; };
+		BB00005A0000000000000000 = {isa = XCSwiftPackageProductDependency; productName = RekeepKit; };
 /* End XCSwiftPackageProductDependency section */
 
 	};

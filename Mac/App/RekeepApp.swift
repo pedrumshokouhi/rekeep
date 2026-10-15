@@ -101,8 +101,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         app.openSettings = { [weak self] in self?.showSettings() }
         app.openCompose = { [weak self] in self?.showLibrary(.compose) }
         app.presentTemplate = { [weak self] clip, plain, paste in self?.templates.present(clip, plain: plain, paste: paste) }
+        IntentEnvironment.store = app.store
+        IntentEnvironment.openShelf = { [weak self] in self?.shelf.show() }
 
         observeShelfVisibility()
+        observePaywall()
         registerHotKeys()
         observeShortcutChanges()
         app.start()
@@ -127,6 +130,26 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 guard let self else { return }
                 self.app.isShelfVisible = self.shelf.shelf.isVisible
                 self.observeShelfVisibility()
+            }
+        }
+    }
+
+    private var paywall: WindowHost?
+
+    private func observePaywall() {
+        withObservationTracking { _ = PurchaseManager.shared.paywallReason } onChange: { [weak self] in
+            Task { @MainActor in
+                guard let self else { return }
+                if let reason = PurchaseManager.shared.paywallReason {
+                    self.shelf.hide()
+                    self.paywall?.close()
+                    self.paywall = WindowHost(title: "Rekeep Pro", autosave: nil, size: NSSize(width: 460, height: 600), minSize: NSSize(width: 460, height: 560), toolbar: false, resizable: false, transparentTitlebar: true) {
+                        PaywallView(reason: reason)
+                    }
+                    self.paywall?.show()
+                    PurchaseManager.shared.paywallReason = nil
+                }
+                self.observePaywall()
             }
         }
     }

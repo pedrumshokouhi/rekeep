@@ -44,7 +44,7 @@ final class LibraryModel {
     var sort: ClipQuery.Sort = .recent { didSet { reload() } }
     var showsList = false
     var gridScale: Double = 1.0
-    var showsInspector = true
+    var showsInspector = false
 
     private(set) var clips: [Clip] = []
     private(set) var hasMore = false
@@ -155,6 +155,9 @@ final class LibraryModel {
         q.sort = sort
         q.since = dateFilter.since
         q.sourceBundleID = sourceBundleID
+        if let cap = PurchaseManager.shared.historyLimit, section == .history, query.isEmpty, kinds.isEmpty {
+            q.limit = max(0, min(q.limit, cap - offset))
+        }
         switch section {
         case .favorites: q.favoritesOnly = true
         case .snippets: q.snippetsOnly = true
@@ -174,6 +177,7 @@ final class LibraryModel {
         } else {
             selection = [clip.id]
         }
+        if selection.count == 1 { showsInspector = true }
     }
 
     func moveSelection(by delta: Int, extend: Bool) {

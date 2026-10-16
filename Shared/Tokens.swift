@@ -18,7 +18,9 @@ enum Brand {
 
 extension Color {
     /// Builds a colour that resolves per appearance, including Increase Contrast variants.
-    static func dynamic(light: PlatformColor, dark: PlatformColor, lightHC: PlatformColor? = nil, darkHC: PlatformColor? = nil) -> Color {
+    /// Nonisolated: SwiftUI resolves these providers on its async render thread, and a
+    /// main-actor closure there traps on the isolation check.
+    nonisolated static func dynamic(light: PlatformColor, dark: PlatformColor, lightHC: PlatformColor? = nil, darkHC: PlatformColor? = nil) -> Color {
         #if canImport(AppKit)
         Color(nsColor: PlatformColor(name: nil) { appearance in
             switch appearance.bestMatch(from: [.aqua, .darkAqua, .accessibilityHighContrastAqua, .accessibilityHighContrastDarkAqua]) {

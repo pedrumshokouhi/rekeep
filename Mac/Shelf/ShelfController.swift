@@ -120,7 +120,15 @@ final class ShelfController: NSObject, NSWindowDelegate {
 
     // MARK: NSWindowDelegate
 
+    #if DEBUG
+    /// The scripted demo keeps the shelf up while the person at the Mac keeps working.
+    static var keepsOpenForDemo = false
+    #endif
+
     func windowDidResignKey(_ notification: Notification) {
+        #if DEBUG
+        if Self.keepsOpenForDemo { return }
+        #endif
         // A popover, template sheet, or menu of ours taking focus should not dismiss the shelf.
         DispatchQueue.main.async { [weak self] in
             guard let self, self.shelf.isVisible else { return }

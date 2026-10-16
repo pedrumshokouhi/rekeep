@@ -46,6 +46,10 @@ enum QASupport {
                 }
             }
         }
+        if let dir = d.string(forKey: "qa.demo") {
+            Task { await Demo.run(shelf: shelf, to: URL(fileURLWithPath: dir)) }
+            return
+        }
         if let dir = d.string(forKey: "qa.snapshot") {
             DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
                 snapshotWindows(to: URL(fileURLWithPath: dir), prefix: d.string(forKey: "qa.appearance") ?? "light")
@@ -70,6 +74,72 @@ enum QASupport {
                 .replacingOccurrences(of: " ", with: "-")
             if let png = rep.representation(using: .png, properties: [:]) {
                 try? png.write(to: dir.appendingPathComponent("\(prefix)-\(name)-\(i).png"))
+            }
+        }
+    }
+
+    /// Scripted shelf walkthrough for the product video. After each step settles, every visible
+    /// Rekeep panel is rendered in-process at 2x with its screen frame; `hold` is how long the
+    /// edit should show that state. Output: `dir`/frames.jsonl + PNGs.
+    enum Demo {
+        static func run(shelf: ShelfController, to dir: URL) async {
+            func wait(_ seconds: Double) async { try? await Task.sleep(for: .seconds(seconds)) }
+            try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+            let rec = Recorder(dir: dir)
+            ShelfController.keepsOpenForDemo = true
+            func step(_ label: String, hold: Double, _ action: () -> Void) async {
+                action()
+                await wait(0.45)
+                rec.snap(label, hold: hold)
+            }
+            await wait(2.5)
+            rec.screen()
+            await step("open", hold: 1.8) { shelf.show() }
+            for i in 0..<4 { await step("move\(i)", hold: 0.55) { shelf.shelf.move(1) } }
+            await step("preview", hold: 2.6) { shelf.debugTogglePreview() }
+            await step("unpreview", hold: 0.6) { shelf.debugTogglePreview() }
+            for i in 0..<4 { await step("scope\(i)", hold: 1.3) { shelf.shelf.cycleScope(1) } }
+            await step("history", hold: 0.9) { shelf.shelf.scope = .history }
+            for (i, character) in "launch".enumerated() { await step("type\(i)", hold: 0.13) { shelf.shelf.query.append(character) } }
+            await wait(0.4)
+            rec.snap("results", hold: 2.0)
+            await step("clear", hold: 1.0) { shelf.shelf.query = "" }
+            await step("pick", hold: 1.4) { shelf.shelf.move(2) }
+            rec.finish()
+            NSApp.terminate(nil)
+        }
+
+        @MainActor
+        final class Recorder {
+            let dir: URL
+            private var index = 0
+            private var lines: [String] = []
+            init(dir: URL) { self.dir = dir }
+
+            func screen() {
+                let screen = NSScreen.screens.first { $0.frame.contains(NSEvent.mouseLocation) } ?? NSScreen.main!
+                lines.append(#"{"screen":[\#(screen.frame.minX),\#(screen.frame.minY),\#(screen.frame.width),\#(screen.frame.height)]}"#)
+            }
+
+            func finish() {
+                try? lines.joined(separator: "\n").write(to: dir.appendingPathComponent("frames.jsonl"), atomically: true, encoding: .utf8)
+            }
+
+            func snap(_ label: String, hold: Double) {
+                var wins: [String] = []
+                for (w, window) in NSApp.windows.enumerated() where window is FloatingPanel && window.isVisible {
+                    guard let view = window.contentView, view.bounds.width > 10 else { continue }
+                    let b = view.bounds
+                    guard let rep = NSBitmapImageRep(bitmapDataPlanes: nil, pixelsWide: Int(b.width * 2), pixelsHigh: Int(b.height * 2), bitsPerSample: 8, samplesPerPixel: 4, hasAlpha: true, isPlanar: false, colorSpaceName: .deviceRGB, bytesPerRow: 0, bitsPerPixel: 0) else { continue }
+                    rep.size = b.size
+                    view.cacheDisplay(in: b, to: rep)
+                    let name = String(format: "k%03d-%d.png", index, w)
+                    try? rep.representation(using: .png, properties: [:])?.write(to: dir.appendingPathComponent(name))
+                    let f = window.frame
+                    wins.append(#"{"file":"\#(name)","frame":[\#(f.minX),\#(f.minY),\#(f.width),\#(f.height)]}"#)
+                }
+                lines.append(#"{"i":\#(index),"label":"\#(label)","hold":\#(hold),"wins":[\#(wins.joined(separator: ","))]}"#)
+                index += 1
             }
         }
     }

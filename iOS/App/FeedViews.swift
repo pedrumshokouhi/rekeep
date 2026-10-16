@@ -71,9 +71,15 @@ struct PhoneRootView: View {
     @State private var feed = FeedState()
     @State private var editMode: EditMode = .inactive
     @State private var showingSettings = false
+    @State private var path: [UUID] = []
+    @State private var searchPresented = false
+    #if DEBUG
+    @State private var demoKeyboard: DemoKeyboard?
+    #endif
 
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
+          ScrollViewReader { proxy in
             List(selection: $feed.selection) {
                 ForEach(feed.clips) { clip in
                     NavigationLink(value: clip.id) {
@@ -103,8 +109,11 @@ struct PhoneRootView: View {
             .environment(\.editMode, $editMode)
             .environment(\.searchTerms, SearchHighlight.terms(feed.query))
             .navigationTitle(feed.title(model))
+            // Inline only: when a short scope reloads, an automatic title expands to a large title
+            // that renders blurred under the scope bar and pushes the search field down.
+            .navigationBarTitleDisplayMode(.inline)
             .navigationDestination(for: UUID.self) { id in ClipDetailView(clipID: id) }
-            .searchable(text: $feed.query, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search clips")
+            .searchable(text: $feed.query, isPresented: $searchPresented, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search clips")
             .safeAreaInset(edge: .top, spacing: 0) { ScopeBar(scope: $feed.scope).background(.bar) }
             .safeAreaInset(edge: .bottom, spacing: 0) { ClipboardBanner().animation(Motion.panel, value: model.clipboardHasNewContent) }
             .refreshable { feed.reload(); model.checkClipboard() }
@@ -153,7 +162,21 @@ struct PhoneRootView: View {
                 }
             }
             .sheet(isPresented: $showingSettings) { MobileSettingsView() }
+            #if DEBUG
+            .onAppear {
+                // Unstructured and once: a view task is cancelled when a detail view is pushed.
+                guard ProcessInfo.processInfo.arguments.contains("-qa.demo"), !DemoRun.started else { return }
+                DemoRun.started = true
+                Task { await runDemo(proxy) }
+            }
+            #endif
+          }
         }
+        #if DEBUG
+        .overlay {
+            if let demoKeyboard { DemoKeyboardScene(demo: demoKeyboard).transition(.move(edge: .bottom)) }
+        }
+        #endif
         .onAppear {
             feed.model = model
             #if DEBUG
@@ -175,7 +198,7 @@ struct MobileEmptyState: View {
         VStack(spacing: 10) {
             if !feed.query.isEmpty {
                 Image(systemName: "magnifyingglass").font(.largeTitle.weight(.light)).foregroundStyle(Palette.inkTertiary)
-                Text("No matches for “\(feed.query)”").font(.headline)
+                Text("No matches for “\(feed.query.trimmingCharacters(in: .whitespaces))”").font(.headline)
             } else if feed.scope == .history {
                 BrandMarkTwoTone(size: 44).padding(.bottom, 4)
                 Text("Nothing saved yet").font(.headline)
@@ -368,3 +391,110 @@ struct PadRootView: View {
         detailID = feed.clips[next].id
     }
 }
+
+#if DEBUG
+// MARK: - Scripted demo (-qa.demo), recorded for the product video
+
+@MainActor enum DemoRun { static var started = false }
+
+extension PhoneRootView {
+    /// Drives the real feed on a fixed timeline so a screen recording needs no manual input.
+    func runDemo(_ proxy: ScrollViewProxy) async {
+        func wait(_ seconds: Double) async { try? await Task.sleep(for: .seconds(seconds)) }
+        await wait(1.8)
+        let ids = feed.clips.map(\.id)
+        if ids.count > 6 {
+            withAnimation(.smooth(duration: 1.2)) { proxy.scrollTo(ids[6], anchor: .top) }
+            await wait(1.6)
+            withAnimation(.smooth(duration: 1.2)) { proxy.scrollTo(ids[0], anchor: .top) }
+            await wait(1.4)
+        }
+        for scope in [MobileScope.favorites, .snippets] {
+            withAnimation(Motion.panel) { feed.scope = scope }
+            await wait(1.5)
+        }
+        withAnimation(Motion.panel) { feed.scope = .history }
+        await wait(1.0)
+        searchPresented = true
+        await wait(0.7)
+        for character in "launch" {
+            feed.query.append(character)
+            await wait(0.14)
+        }
+        await wait(2.2)
+        feed.query = ""
+        searchPresented = false
+        await wait(1.0)
+        if let code = feed.clips.first(where: { $0.kind == .code }) {
+            path.append(code.id)
+            await wait(2.8)
+            path.removeAll()
+            await wait(1.0)
+        }
+        if let first = feed.clips.first {
+            model.copy(first)
+            await wait(1.8)
+        }
+        let keyboard = DemoKeyboard()
+        withAnimation(.smooth(duration: 0.5)) { demoKeyboard = keyboard }
+        await wait(1.6)
+        if let link = keyboard.state.clips.first(where: { $0.kind == .link }) { keyboard.state.use(link) }
+        await wait(2.6)
+        withAnimation(Motion.panel) { keyboard.state.scope = .snippets }
+        await wait(1.4)
+        withAnimation(Motion.panel) { keyboard.state.scope = .recent }
+        await wait(2.0)
+    }
+}
+
+@Observable
+@MainActor
+final class DemoKeyboard {
+    var message = "Here’s the doc I mentioned: "
+    let state = KeyboardState()
+    init() {
+        state.hasFullAccess = true
+        state.needsGlobe = true
+        state.insert = { [weak self] text in self?.message += text }
+        state.load()
+    }
+}
+
+/// A plain message composer with the real Rekeep keyboard view under it.
+struct DemoKeyboardScene: View {
+    let demo: DemoKeyboard
+    var body: some View {
+        VStack(spacing: 0) {
+            VStack(alignment: .leading, spacing: 8) {
+                bubble("Morning! Do you have that Liquid Glass doc?")
+                bubble("The one from yesterday’s review")
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal, 12)
+            .padding(.top, 70)
+            Spacer()
+            HStack(alignment: .bottom, spacing: 10) {
+                Text(demo.message)
+                    .font(.body)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal, 14).padding(.vertical, 10)
+                    .background(Palette.card, in: .rect(cornerRadius: 20))
+                    .overlay(RoundedRectangle(cornerRadius: 20).stroke(Palette.cardStroke))
+                Image(systemName: "arrow.up.circle.fill").font(.system(size: 30)).foregroundStyle(Palette.jade)
+            }
+            .padding(.horizontal, 12).padding(.vertical, 10)
+            KeyboardView(state: demo.state)
+                .frame(height: 268)
+                .background(Color(uiColor: .systemGray5))
+        }
+        .background(Palette.shelfSolid.ignoresSafeArea())
+    }
+
+    private func bubble(_ text: String) -> some View {
+        Text(text)
+            .padding(.horizontal, 14).padding(.vertical, 10)
+            .background(Palette.chipFillSelected, in: .rect(cornerRadius: 18))
+            .frame(maxWidth: 280, alignment: .leading)
+    }
+}
+#endif

@@ -112,7 +112,7 @@ final class ShelfModel {
 
     private func apply(_ result: [Clip], append: Bool, resetSelection: Bool) {
         isLoading = false
-        hasMore = result.count == pageSize && (PurchaseManager.shared.historyLimit.map { clips.count + result.count < $0 } ?? true)
+        hasMore = result.count == pageSize
         if append {
             let existing = Set(clips.map(\.id))
             clips.append(contentsOf: result.filter { !existing.contains($0.id) })
@@ -138,10 +138,6 @@ final class ShelfModel {
         }
         // While searching, rank by relevance but keep recent ties first.
         if !query.isEmpty { q.sort = .relevance }
-        // Free: browsing history shows the latest clips; search still covers everything kept.
-        if let cap = PurchaseManager.shared.historyLimit, scope == .history, query.isEmpty, kindFilter == nil {
-            q.limit = max(0, min(q.limit, cap - offset))
-        }
         return q
     }
 

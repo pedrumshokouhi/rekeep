@@ -247,7 +247,6 @@ final class AppModel {
     // MARK: - Queue
 
     func enqueue(_ ids: [UUID]) {
-        guard PurchaseManager.shared.allows(.queue) else { return }
         queue.add(contentsOf: ids)
         show(Toast(style: .info, title: ids.count == 1 ? "Added to Queue" : "\(ids.count) added to Queue", detail: "\(queue.remaining) waiting · paste next with \(settings.queueShortcut?.display ?? "the Queue shortcut")"))
     }
@@ -301,7 +300,6 @@ final class AppModel {
     @discardableResult
     func createCollection(name: String, symbol: String = "square.stack", accent: CollectionAccent = .graphite, adding ids: [UUID] = []) -> ClipCollection? {
         let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard PurchaseManager.shared.allows(.collections, count: collections.count) else { return nil }
         guard !trimmed.isEmpty, let c = try? store.saveCollection(ClipCollection(name: trimmed, symbol: symbol, accent: accent)) else { return nil }
         if !ids.isEmpty { try? store.add(ids, to: c.id) }
         return c
@@ -313,8 +311,6 @@ final class AppModel {
     }
 
     func newSnippet(text: String, title: String?) {
-        var q = ClipQuery(limit: 1000); q.snippetsOnly = true
-        guard PurchaseManager.shared.allows(.snippets, count: store.count(q)) else { return }
         let (clip, reps) = ClipFactory.makeSnippet(text: text, title: title, deviceID: store.deviceID, deviceName: store.deviceName)
         _ = try? store.ingest(clip, representations: reps)
     }

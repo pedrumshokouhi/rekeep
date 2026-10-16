@@ -178,8 +178,6 @@ final class MobileModel {
     }
 
     func newSnippet(text: String, title: String?) {
-        var q = ClipQuery(limit: 1000); q.snippetsOnly = true
-        guard PurchaseManager.shared.allows(.snippets, count: store.count(q)) else { return }
         let (clip, reps) = ClipFactory.makeSnippet(text: text, title: title, deviceID: store.deviceID, deviceName: store.deviceName)
         _ = try? store.ingest(clip, representations: reps)
     }
@@ -266,7 +264,6 @@ final class MobileModel {
     @discardableResult
     func createCollection(name: String, symbol: String = "square.stack", accent: CollectionAccent = .graphite, adding ids: [UUID] = []) -> ClipCollection? {
         let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard PurchaseManager.shared.allows(.collections, count: collections.count) else { return nil }
         guard !trimmed.isEmpty, let c = try? store.saveCollection(ClipCollection(name: trimmed, symbol: symbol, accent: accent)) else { return nil }
         if !ids.isEmpty { try? store.add(ids, to: c.id) }
         return c
@@ -278,7 +275,6 @@ final class MobileModel {
     }
 
     func startCompose(_ ids: [UUID]) {
-        guard PurchaseManager.shared.allows(.compose) else { return }
         composeIDs = ids
         isComposing = true
     }

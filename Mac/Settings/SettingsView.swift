@@ -101,15 +101,6 @@ private struct GeneralSettings: View {
                 Toggle("Show brief confirmations", isOn: $settings.playFeedbackHUD)
             }
             Section {
-                LabeledContent("Rekeep Pro") {
-                    if PurchaseManager.shared.isPro {
-                        Label("Unlocked", systemImage: "checkmark.seal.fill").foregroundStyle(Palette.jadeInk)
-                    } else {
-                        Button("Learn More…") { PurchaseManager.shared.paywallReason = .history }
-                    }
-                }
-            }
-            Section {
                 Toggle("Open Rekeep at login", isOn: Binding(get: { settings.launchAtLogin }, set: { app.setLaunchAtLogin($0) }))
             }
         }

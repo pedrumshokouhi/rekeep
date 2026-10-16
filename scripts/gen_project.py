@@ -91,21 +91,6 @@ TARGETS.append(dict(
     },
 ))
 
-TARGETS.append(dict(
-    name="RekeepMobileTests", folders=["iOS/Tests"], product="RekeepMobileTests", type="unittest",
-    bundle="com.pedrumshokouhi.rekeep.tests", host="RekeepMobile",
-    settings={
-        "IPHONEOS_DEPLOYMENT_TARGET": "18.0",
-        "SDKROOT": "iphoneos",
-        "SUPPORTED_PLATFORMS": "iphoneos iphonesimulator",
-        "TARGETED_DEVICE_FAMILY": "1,2",
-        "TEST_HOST": "$(BUILT_PRODUCTS_DIR)/Rekeep.app/Rekeep",
-        "BUNDLE_LOADER": "$(TEST_HOST)",
-        "SWIFT_DEFAULT_ACTOR_ISOLATION": "nonisolated",
-        "LD_RUNPATH_SEARCH_PATHS": ["$(inherited)", "@executable_path/Frameworks", "@loader_path/Frameworks"],
-    },
-))
-
 PRODUCT_TYPES = {"app": "com.apple.product-type.application", "extension": "com.apple.product-type.app-extension", "unittest": "com.apple.product-type.bundle.unit-test"}
 WRAPPERS = {"app": ("wrapper.application", ".app"), "extension": ("wrapper.app-extension", ".appex"), "unittest": ("wrapper.cfbundle", ".xctest")}
 
@@ -310,5 +295,5 @@ def scheme(name, build_target, test_target=None, storekit=None):
         f.write(xml)
 
 scheme("Rekeep", "Rekeep")
-scheme("RekeepMobile", "RekeepMobile", test_target="RekeepMobileTests", storekit="iOS/Tests/Rekeep.storekit")
+scheme("RekeepMobile", "RekeepMobile")
 print("wrote", path)

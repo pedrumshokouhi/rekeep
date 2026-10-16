@@ -155,9 +155,6 @@ final class LibraryModel {
         q.sort = sort
         q.since = dateFilter.since
         q.sourceBundleID = sourceBundleID
-        if let cap = PurchaseManager.shared.historyLimit, section == .history, query.isEmpty, kinds.isEmpty {
-            q.limit = max(0, min(q.limit, cap - offset))
-        }
         switch section {
         case .favorites: q.favoritesOnly = true
         case .snippets: q.snippetsOnly = true

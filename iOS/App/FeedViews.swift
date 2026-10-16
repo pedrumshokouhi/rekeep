@@ -49,9 +49,6 @@ final class FeedState {
         case .snippets: q.snippetsOnly = true
         case .collection(let id): q.collectionID = id
         }
-        if let cap = PurchaseManager.shared.historyLimit, scope == .history, query.isEmpty, kind == nil {
-            q.limit = max(0, min(q.limit, cap - q.offset))
-        }
         let query = q
         Task {
             let result = await Task.detached(priority: .userInitiated) { (try? store.fetch(query)) ?? [] }.value

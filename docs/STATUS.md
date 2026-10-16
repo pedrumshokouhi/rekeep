@@ -9,7 +9,7 @@
 | Mac | Menu-bar app, glass shelf (⇧⌘V), Library, Compose, Paste Queue, templates, collections with their own shortcuts, settings, onboarding, Shortcuts actions |
 | iPhone | Feed with search highlighting, system Paste button, Share extension, **Rekeep keyboard**, Compose, collections, snippets, templates |
 | iPad | Sidebar + masonry grid + detail panel, hardware keyboard, drag and drop |
-| All | Rekeep Pro (one-time $9.99, non-consumable, universal purchase) |
+| All | Free — every feature, no in-app purchases |
 
 ## Quality control — all passing
 
@@ -18,7 +18,6 @@
 | Engine unit tests | 26/26 pass |
 | Search at 50,000 clips (release) | typical 0.4–75 ms; worst case 109–129 ms when every clip matches |
 | Mac capture self-test (real pipeline, private pasteboard) | 20/20 pass; 200 rapid copies in 60 ms |
-| StoreKit tests (local App Store config) | 4/4 pass: free limits, price loads, buy → refund revokes → restore, Ask to Buy pending |
 | Release builds (Mac, iOS + Share + Keyboard) | succeed; Mac 0 warnings; iOS 2 benign tool notices |
 | Contrast (WCAG) | body ≥ 6.2:1, metadata ≥ 5.0:1, white-on-jade buttons 4.6:1 (measured) |
 | Largest Dynamic Type (iPhone) | cards reflow; colour labels and glyphs scale |
@@ -38,7 +37,6 @@
 ## Owner steps to publish
 
 1. Create the app in App Store Connect: **Apps › + › New App**, platforms **iOS and macOS**, name "Rekeep: Clipboard Manager", bundle ID `com.pedrumshokouhi.rekeep`, SKU `rekeep`.
-2. Accept the **Paid Apps agreement** and fill in banking/tax (needed to sell Rekeep Pro).
 3. Choose a support email and host `site/rekeep/` at pedrumshokouhi.com/rekeep (replace `SUPPORT_EMAIL`).
 4. Provide the App Store Connect API key to the release script (`scripts/release.sh`, reads `ASC_KEY_ID`/`ASC_ISSUER_ID`), or run it yourself.
 5. App Privacy: select **Data Not Collected**. Everything else (metadata, screenshots, review notes, IAP) is in `docs/AppStore/`.

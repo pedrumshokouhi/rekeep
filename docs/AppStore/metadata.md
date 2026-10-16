@@ -39,8 +39,8 @@ PRIVATE BY DESIGN
 • Text that looks like a password, key, or card number isn’t saved (configurable)
 • Delete a clip — or everything — whenever you like
 
-REKEEP PRO
-Free keeps everything you copy and shows your latest 200 clips, with 3 collections and 5 snippets. Rekeep Pro is a one-time purchase that unlocks your whole history, unlimited collections and snippets, Compose, and the Paste Queue — on your Mac, iPhone, and iPad. No subscription.
+FREE, COMPLETELY
+Every feature is included, with no limits, no ads, no subscription, and no account.
 
 ## Keywords (100)
 clipboard,paste,history,snippets,copy,clip,manager,pinboard,templates,shelf,text,expander,notes
@@ -59,11 +59,8 @@ Primary: Productivity · Secondary: Utilities
 ## App Privacy (nutrition label)
 **Data Not Collected.** Rekeep has no servers, analytics, advertising, or third-party SDKs. Clips are stored only on the user's device. StoreKit purchases are handled by Apple.
 
-## In-app purchase
-- Reference name: Rekeep Pro · Product ID `com.pedrumshokouhi.rekeep.pro` · Non-consumable · Family Sharing on
-- Price: US $9.99 (tier to be confirmed by owner)
-- Display name: Rekeep Pro · Description: Your whole history, unlimited collections and snippets, Compose, and the Paste Queue.
-- Review screenshot: the paywall (docs/AppStore/screenshots/iap-review.png)
+## In-app purchases
+None in 1.0. (A "Rekeep Pro" product exists in App Store Connect but is not part of this submission.)
 
 ## App Review notes
 Rekeep is a clipboard manager.
@@ -72,7 +69,7 @@ macOS: Rekeep runs from the menu bar. Press Shift-Command-V to open the shelf. O
 
 iOS: iOS does not allow background clipboard reading. Rekeep uses the system Paste button (UIPasteControl) so no prompt is shown, and offers a Share extension and a custom keyboard. The keyboard requests Full Access only to read the user's saved clips from the app's shared container on the device; it does not log keystrokes, does not use the network, and inserts text only.
 
-No account or login is required. The in-app purchase (Rekeep Pro) can be tested with a sandbox account; all core features are available without it.
+No account or login is required. There are no in-app purchases; every feature is free.
 
 ## What's New (1.0)
 First release.

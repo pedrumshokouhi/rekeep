@@ -41,14 +41,6 @@ struct MobileSettingsView: View {
                     Text("Your library lives in Rekeep’s private storage on this device, protected by iOS data protection. No account, no analytics, no servers.")
                 }
                 Section {
-                    if PurchaseManager.shared.isPro {
-                        Label("Rekeep Pro unlocked", systemImage: "checkmark.seal.fill").foregroundStyle(Palette.jadeInk)
-                    } else {
-                        Button("Rekeep Pro…") { dismiss(); PurchaseManager.shared.paywallReason = .history }
-                    }
-                    Button("Restore Purchase") { Task { await PurchaseManager.shared.restore() } }
-                }
-                Section {
                     LabeledContent("Version", value: Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "1.0")
                 }
             }

@@ -3,6 +3,7 @@
 #
 #   scripts/release.sh [ios|mac|all]                         (uses the Apple account signed in to Xcode)
 #   ASC_KEY_ID=… ASC_ISSUER_ID=… scripts/release.sh [ios|mac|all]  (also uploads with an App Store Connect API key)
+#   IOS_VERSION=1.0.1 / MAC_VERSION=1.0.1 override the marketing version per platform (the two ship independently).
 #
 # The team has no registered devices, so development profiles can't be made and a normal signed
 # archive fails. Instead: archive unsigned, sign each bundle (inner first) with the Apple Distribution
@@ -46,7 +47,7 @@ if [[ "$WHAT" == ios || "$WHAT" == all ]]; then
   echo "iOS: archiving build $BUILD_NUMBER…"
   ARC="$OUT/Rekeep-iOS.xcarchive"
   xcodebuild -project Rekeep.xcodeproj -scheme RekeepMobile -configuration Release -destination 'generic/platform=iOS' \
-    -archivePath "$ARC" archive CURRENT_PROJECT_VERSION="$BUILD_NUMBER" CODE_SIGNING_ALLOWED=NO > "$OUT/ios-archive.log" 2>&1
+    -archivePath "$ARC" archive CURRENT_PROJECT_VERSION="$BUILD_NUMBER" ${IOS_VERSION:+MARKETING_VERSION=$IOS_VERSION} CODE_SIGNING_ALLOWED=NO > "$OUT/ios-archive.log" 2>&1
   sign "$ARC" Rekeep.app/PlugIns/RekeepKeyboard.appex iOS/Keyboard/RekeepKeyboard.entitlements
   sign "$ARC" Rekeep.app/PlugIns/RekeepShare.appex iOS/Share/RekeepShare.entitlements
   sign "$ARC" Rekeep.app iOS/App/Rekeep.entitlements
@@ -58,7 +59,7 @@ if [[ "$WHAT" == mac || "$WHAT" == all ]]; then
   echo "macOS: archiving build $BUILD_NUMBER…"
   ARC="$OUT/Rekeep-macOS.xcarchive"
   xcodebuild -project Rekeep.xcodeproj -scheme Rekeep -configuration Release -destination 'generic/platform=macOS' \
-    -archivePath "$ARC" archive CURRENT_PROJECT_VERSION="$BUILD_NUMBER" CODE_SIGNING_ALLOWED=NO > "$OUT/mac-archive.log" 2>&1
+    -archivePath "$ARC" archive CURRENT_PROJECT_VERSION="$BUILD_NUMBER" ${MAC_VERSION:+MARKETING_VERSION=$MAC_VERSION} CODE_SIGNING_ALLOWED=NO > "$OUT/mac-archive.log" 2>&1
   sign "$ARC" Rekeep.app Mac/Rekeep.entitlements -o runtime
   stamp "$ARC"
   ship "$ARC" macos macOS "*.pkg"

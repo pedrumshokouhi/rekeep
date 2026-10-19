@@ -3,5 +3,6 @@ xcuserdata/
 *.xcuserstate
 .build/
 .swiftpm/
+DerivedData/
 site/*.zip
 docs/Demo/*.mp4

@@ -14,6 +14,8 @@ final class KeyboardState {
     var needsGlobe = true
     var scope: Scope = .recent { didSet { load() } }
     private(set) var clips: [Clip] = []
+    /// The clip the keyboard just saved from the clipboard, briefly highlighted.
+    private(set) var justSavedID: UUID?
     var note: String?
     var insert: (String) -> Void = { _ in }
     var deleteBackward: () -> Void = {}
@@ -33,6 +35,25 @@ final class KeyboardState {
         // Text-like clips only: a keyboard can insert text, not images or files.
         q.kinds = [.text, .link, .code, .color]
         clips = (try? store.fetch(q)) ?? []
+    }
+
+    /// Saves a new clipboard item (if any) and shows it first. Cheap to call often: it only
+    /// reads the clipboard when its change count moved.
+    func captureClipboard() {
+        guard hasFullAccess, ClipboardSaver.keyboardAutoSave else { return }
+        if store == nil { store = try? SharedStorage.openStore(deviceName: nil) }
+        guard let store, let result = ClipboardSaver.saveIfNew(into: store, sourceAppName: nil) else { return }
+        switch result {
+        case .inserted(let id), .refreshedDuplicate(let id):
+            if scope != .recent { scope = .recent } else { load() }
+            withAnimation(.smooth(duration: 0.35)) { justSavedID = id }
+            Task { @MainActor [weak self] in
+                try? await Task.sleep(for: .seconds(2.2))
+                withAnimation(.smooth(duration: 0.6)) { if self?.justSavedID == id { self?.justSavedID = nil } }
+            }
+        case .ignored:
+            break
+        }
     }
 
     func use(_ clip: Clip) {
@@ -76,14 +97,14 @@ struct KeyboardView: View {
             if !state.hasFullAccess {
                 FullAccessHelp()
             } else if state.clips.isEmpty {
-                Text(state.scope == .recent ? "Clips you save in Rekeep appear here." : "Nothing in \(state.scope.rawValue) yet.")
+                Text(state.scope == .recent ? "Copy something and it appears here." : "Nothing in \(state.scope.rawValue) yet.")
                     .font(.subheadline).foregroundStyle(Palette.inkSecondary)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
                 ScrollView(.horizontal) {
                     LazyHGrid(rows: [GridItem(.flexible(), spacing: 8), GridItem(.flexible(), spacing: 8)], spacing: 8) {
                         ForEach(state.clips) { clip in
-                            Button { state.use(clip) } label: { KeyClipTile(clip: clip) }
+                            Button { state.use(clip) } label: { KeyClipTile(clip: clip, isNew: state.justSavedID == clip.id) }
                                 .buttonStyle(.plain)
                                 .accessibilityLabel("Insert \(clip.title)")
                         }
@@ -109,6 +130,7 @@ struct KeyboardView: View {
 
 private struct KeyClipTile: View {
     let clip: Clip
+    var isNew = false
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             HStack(spacing: 4) {
@@ -136,7 +158,8 @@ private struct KeyClipTile: View {
         .frame(width: 150, alignment: .topLeading)
         .frame(maxHeight: .infinity, alignment: .topLeading)
         .background(Palette.card, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
-        .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous).strokeBorder(Palette.cardStroke, lineWidth: 0.5))
+        .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous).strokeBorder(isNew ? Palette.jade : Palette.cardStroke, lineWidth: isNew ? 1.5 : 0.5))
+        .accessibilityHint(isNew ? "Just saved from your clipboard" : "")
     }
 }
 

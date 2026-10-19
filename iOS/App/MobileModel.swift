@@ -107,6 +107,8 @@ final class MobileModel {
 
     func checkClipboard() {
         let pb = UIPasteboard.general
+        // The keyboard may have saved this item already; it records the change count in the App Group.
+        lastSeenChangeCount = SharedStorage.defaults.integer(forKey: ClipboardSaver.lastChangeKey)
         // hasStrings/hasImages/hasURLs and changeCount do not show the paste prompt.
         clipboardHasNewContent = showsClipboardBanner && pb.changeCount != lastSeenChangeCount && (pb.hasStrings || pb.hasImages || pb.hasURLs)
     }

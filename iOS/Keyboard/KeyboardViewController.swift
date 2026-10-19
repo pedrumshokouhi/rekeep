@@ -9,6 +9,7 @@ import UIKit
 final class KeyboardViewController: UIInputViewController {
     private var host: UIHostingController<KeyboardView>?
     private let state = KeyboardState()
+    private var clipboardTimer: Timer?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +37,22 @@ final class KeyboardViewController: UIInputViewController {
         state.hasFullAccess = hasFullAccess
         state.needsGlobe = needsInputModeSwitchKey
         state.load()
+        state.captureClipboard()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        // Something copied while the keyboard is up (e.g. long-press › Copy) is saved within a second.
+        clipboardTimer?.invalidate()
+        clipboardTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
+            MainActor.assumeIsolated { self?.state.captureClipboard() }
+        }
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        clipboardTimer?.invalidate()
+        clipboardTimer = nil
     }
 
     override func textDidChange(_ textInput: (any UITextInput)?) {

@@ -26,20 +26,6 @@ enum HistoryRetention: String, CaseIterable, Identifiable, Codable {
     }
 }
 
-enum PasteBehavior: String, CaseIterable, Identifiable, Codable {
-    /// Put the clip on the clipboard and paste it into the frontmost app (needs Accessibility).
-    case pasteDirectly
-    /// Only put the clip on the clipboard.
-    case copyOnly
-    var id: String { rawValue }
-    var title: String {
-        switch self {
-        case .pasteDirectly: "Paste into the active app"
-        case .copyOnly: "Copy to clipboard only"
-        }
-    }
-}
-
 enum MultiCopySeparator: String, CaseIterable, Identifiable, Codable {
     case newline, blankLine, space, comma, tab
     var id: String { rawValue }
@@ -73,7 +59,6 @@ final class AppSettings {
     var density: ShelfDensity = .comfortable { didSet { save(density, "density") } }
     var useListLayout = false { didSet { save(useListLayout, "useListLayout") } }
     var retention: HistoryRetention = .month { didSet { save(retention, "retention") } }
-    var pasteBehavior: PasteBehavior = .pasteDirectly { didSet { save(pasteBehavior, "pasteBehavior") } }
     var pastePlainTextByDefault = false { didSet { save(pastePlainTextByDefault, "pastePlainTextByDefault") } }
     var multiSeparator: MultiCopySeparator = .newline { didSet { save(multiSeparator, "multiSeparator") } }
     var shortcut: KeyShortcut = .defaultShelf { didSet { save(shortcut, "shortcut") } }
@@ -91,7 +76,6 @@ final class AppSettings {
         density = load("density") ?? .comfortable
         useListLayout = load("useListLayout") ?? false
         retention = load("retention") ?? .month
-        pasteBehavior = load("pasteBehavior") ?? .pasteDirectly
         pastePlainTextByDefault = load("pastePlainTextByDefault") ?? false
         multiSeparator = load("multiSeparator") ?? .newline
         shortcut = load("shortcut") ?? .defaultShelf

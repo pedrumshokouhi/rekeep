@@ -44,7 +44,7 @@ private struct MenuBarContent: View {
         Button("Open Library") { app.openLibrary(nil) }
         Divider()
         if !app.queue.isEmpty {
-            Button("Paste Next from Queue (\(app.queue.remaining))") { app.pasteNextFromQueue() }
+            Button("Copy Next from Queue (\(app.queue.remaining))") { app.pasteNextFromQueue() }
             Divider()
         }
         Button(app.settings.privacy.isCapturePaused ? "Resume Capture" : "Pause Capture") { app.togglePause() }
@@ -234,6 +234,15 @@ final class WindowHost: NSObject, NSWindowDelegate {
     }
 
     func show() {
+        #if DEBUG
+        if QASupport.invisible {
+            // QA renders: draw the window for an in-process snapshot without showing it or taking focus.
+            window.alphaValue = 0
+            window.ignoresMouseEvents = true
+            window.orderFrontRegardless()
+            return
+        }
+        #endif
         if !window.isVisible {
             Self.openCount += 1
             NSApp.setActivationPolicy(.regular)

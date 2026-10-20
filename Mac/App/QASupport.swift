@@ -11,6 +11,16 @@ import RekeepKit
 /// None of this is compiled into Release builds.
 @MainActor
 enum QASupport {
+    /// `-qa.invisible YES`: windows are drawn at zero opacity and never activate the app,
+    /// so snapshots don't appear on screen or take the keyboard.
+    static var invisible: Bool {
+        #if DEBUG
+        UserDefaults.standard.bool(forKey: "qa.invisible")
+        #else
+        false
+        #endif
+    }
+
     static var skipsOnboarding: Bool {
         #if DEBUG
         let d = UserDefaults.standard

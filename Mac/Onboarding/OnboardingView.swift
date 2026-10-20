@@ -7,10 +7,13 @@ import SwiftUI
 struct OnboardingView: View {
     @Environment(AppModel.self) private var app
     var finish: () -> Void
+    #if DEBUG
+    @State private var step = UserDefaults.standard.integer(forKey: "qa.onboardingStep")
+    #else
     @State private var step = 0
+    #endif
     @State private var demoCopied = false
     @State private var demoSaved = false
-    @State private var axTrusted = PasteboardWriter.canPasteDirectly
     private let poll = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     private let demoText = "Rekeep keeps what you copy, so you can paste it again later."
 
@@ -59,7 +62,6 @@ struct OnboardingView: View {
         .frame(width: 720, height: 560)
         .background(Palette.card)
         .onReceive(poll) { _ in
-            axTrusted = PasteboardWriter.canPasteDirectly
             app.refreshPasteboardAccess()
             if demoCopied, !demoSaved {
                 demoSaved = (try? app.store.fetch(ClipQuery(text: "keeps what you copy", limit: 1)).isEmpty == false) ?? false
@@ -151,18 +153,17 @@ struct OnboardingView: View {
 
     private var pasting: some View {
         VStack(alignment: .leading, spacing: Space.l) {
-            stepHeader("arrow.down.doc", "Paste for you (optional)")
-            Text("Rekeep can paste the clip you choose straight into the app you were using. To do that, macOS requires Accessibility permission — Rekeep uses it only to send ⌘V.")
+            stepHeader("arrow.down.doc", "Pick it, then paste")
+            Text("Choose a clip with Return or a click. Rekeep puts it on your clipboard and steps aside — you’re still in the app you were using, so just press ⌘V.")
                 .font(.title3).foregroundStyle(Palette.inkSecondary)
-            HStack(spacing: Space.m) {
-                if axTrusted {
-                    Label("Allowed — Rekeep will paste for you.", systemImage: "checkmark.circle.fill").foregroundStyle(Palette.jadeInk)
-                } else {
-                    Button("Allow Accessibility…") { PasteboardWriter.requestAccessibility(); PasteboardWriter.openAccessibilitySettings() }
-                    Text("Without it, Rekeep copies and you press ⌘V.").foregroundStyle(Palette.inkSecondary)
-                }
+            HStack(spacing: Space.s) {
+                LargeKey("↩")
+                Image(systemName: "arrow.right").foregroundStyle(Palette.inkTertiary)
+                LargeKey("⌘")
+                LargeKey("V")
             }
-            .font(.callout)
+            Text("Rekeep never types into other apps, so it doesn’t need any extra permissions.")
+                .font(.callout).foregroundStyle(Palette.inkSecondary)
         }
         .frame(maxWidth: 560, alignment: .leading)
     }
@@ -223,4 +224,20 @@ struct OnboardingView: View {
     }
     private var accessSymbol: String { app.pasteboardAccess == .allowed ? "checkmark.circle.fill" : (app.pasteboardAccess == .denied ? "xmark.octagon" : "questionmark.circle") }
     private var accessColor: Color { app.pasteboardAccess == .allowed ? Palette.jadeInk : (app.pasteboardAccess == .denied ? Palette.danger : Palette.inkSecondary) }
+}
+
+/// A full-size key for the onboarding illustration.
+private struct LargeKey: View {
+    let text: String
+    init(_ text: String) { self.text = text }
+    var body: some View {
+        Text(text)
+            .font(.system(size: 17, weight: .medium, design: .rounded))
+            .foregroundStyle(Palette.ink)
+            .frame(minWidth: 40, minHeight: 36)
+            .padding(.horizontal, 6)
+            .background(Palette.cardSunken, in: RoundedRectangle(cornerRadius: 8, style: .continuous))
+            .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(Palette.cardStroke))
+            .shadow(color: .black.opacity(0.08), radius: 0, y: 1)
+    }
 }

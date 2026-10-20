@@ -13,7 +13,7 @@ Everything you copy, kept beautifully and found in seconds. A clipboard shelf fo
 Rekeep is a quiet, fast home for everything worth copying.
 
 ON YOUR MAC
-Press ⇧⌘V and your recent clips rise from the bottom of the screen as clear, recognisable cards — text, links, images, colours, code, and files. Arrow to the one you want, press Return, and it’s pasted where you were working. Start typing to search everything you’ve ever kept.
+Press ⇧⌘V and your recent clips rise from the bottom of the screen as clear, recognisable cards — text, links, images, colours, code, and files. Arrow to the one you want, press Return, then ⌘V — it lands right where you were working. Start typing to search everything you’ve ever kept.
 
 • A visual shelf that stays out of your way until you need it
 • Instant search across text, links, notes, tags, and words found inside images
@@ -65,7 +65,7 @@ None in 1.0. (A "Rekeep Pro" product exists in App Store Connect but is not part
 ## App Review notes
 Rekeep is a clipboard manager.
 
-macOS: Rekeep runs from the menu bar. Press Shift-Command-V to open the shelf. On first copy, macOS asks whether Rekeep may read the clipboard ("Paste from Other Apps"); choose Allow — Rekeep only reads the clipboard to save what the user copies, locally. Pasting directly into the frontmost app is optional and uses Accessibility permission only to send Command-V; without it, Rekeep copies and the user pastes. The app is fully usable without Accessibility.
+macOS: Rekeep runs from the menu bar. Press Shift-Command-V to open the shelf. On first copy, macOS asks whether Rekeep may read the clipboard ("Paste from Other Apps"); choose Allow — Rekeep only reads the clipboard to save what the user copies, locally. Choosing a clip copies it and dismisses the shelf (a non-activating panel, so the user's app keeps focus); the user then presses Command-V. As of this build Rekeep does not use or request Accessibility permission.
 
 iOS: iOS does not allow background clipboard reading. Rekeep uses the system Paste button (UIPasteControl) so no prompt is shown, and offers a Share extension and a custom keyboard. The keyboard requests Full Access only to read the user's saved clips from the app's shared container on the device; it does not log keystrokes, does not use the network, and inserts text only.
 

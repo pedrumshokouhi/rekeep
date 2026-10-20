@@ -77,7 +77,7 @@ private struct TemplateFillView: View {
                 Text("Placeholders left empty stay as written.").font(.caption).foregroundStyle(Palette.inkTertiary)
                 Spacer()
                 Button("Cancel", action: onCancel).keyboardShortcut(.cancelAction)
-                Button("Paste") { onDeliver(rendered) }.keyboardShortcut(.defaultAction)
+                Button("Copy") { onDeliver(rendered) }.keyboardShortcut(.defaultAction)
             }
         }
         .padding(Space.xl)

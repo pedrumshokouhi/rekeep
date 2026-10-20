@@ -194,10 +194,11 @@ final class AppModel {
 
     // MARK: - Reuse
 
-    /// The primary action: put the clip on the clipboard and (optionally) paste it.
+    /// The primary action: put the clip on the clipboard. `paste` means the person is about to
+    /// paste (from the shelf): Rekeep steps aside so their app has focus, and they press ⌘V.
     func activate(_ clip: Clip, plainText: Bool? = nil, paste: Bool? = nil) {
         let plain = plainText ?? settings.pastePlainTextByDefault
-        let shouldPaste = paste ?? (settings.pasteBehavior == .pasteDirectly)
+        let shouldPaste = paste ?? true
         if clip.isTemplate {
             presentTemplate(clip, plain, shouldPaste)
             return
@@ -220,15 +221,9 @@ final class AppModel {
 
     private func finishReuse(paste: Bool, kind: String?) {
         if paste {
-            if PasteboardWriter.canPasteDirectly {
-                hideShelf {
-                    // Give the previous app a moment to regain key focus.
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.06) { PasteboardWriter.sendPasteKeystroke() }
-                }
-            } else {
-                hideShelf(nil)
-                show(Toast(style: .success, title: "Copied", detail: "Press ⌘V to paste. Allow Accessibility to paste automatically.", actionTitle: "Allow…", action: { PasteboardWriter.requestAccessibility() }))
-            }
+            // The shelf never takes focus from the app you were in, so ⌘V lands right there.
+            hideShelf(nil)
+            show(Toast(style: .success, title: kind == nil ? "Copied" : "Copied as \(kind!)", detail: "Press ⌘V to paste."))
         } else {
             hideShelf(nil)
             show(Toast(style: .success, title: kind == nil ? "Copied" : "Copied as \(kind!)"))
@@ -261,10 +256,7 @@ final class AppModel {
         do {
             try writer.write(clip, representations: store.representations(for: id), plainText: settings.pastePlainTextByDefault)
             store.markUsed(id, bringToFront: false)
-            if settings.pasteBehavior == .pasteDirectly, PasteboardWriter.canPasteDirectly {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) { PasteboardWriter.sendPasteKeystroke() }
-            }
-            show(Toast(style: .success, title: queue.remaining == 0 ? "Last item in Queue" : "Next: \(queue.remaining) left"))
+            show(Toast(style: .success, title: queue.remaining == 0 ? "Last item in Queue — press ⌘V" : "Ready to paste · \(queue.remaining) left", detail: queue.remaining == 0 ? nil : "Press ⌘V, then the Queue shortcut for the next one."))
         } catch {
             show(Toast(style: .failure, title: "Couldn’t copy", detail: error.localizedDescription))
         }

@@ -47,12 +47,10 @@ struct ClipContextMenu: View {
 
     var body: some View {
         if let clip = single {
-            Button("Paste") { app.activate(clip, paste: true) }
-            Button("Paste as Plain Text") { app.activate(clip, plainText: true, paste: true) }
-            Button("Copy") { app.activate(clip, paste: false) }
+            Button("Copy") { app.activate(clip, paste: true) }
+            Button("Copy as Plain Text") { app.activate(clip, plainText: true, paste: true) }
         } else {
-            Button("Paste \(clips.count) Together") { app.copyTogether(clips, paste: true) }
-            Button("Copy \(clips.count) Together") { app.copyTogether(clips, paste: false) }
+            Button("Copy \(clips.count) Together") { app.copyTogether(clips, paste: true) }
         }
         Divider()
         Button(clips.allSatisfy(\.isFavorite) ? "Remove from Favorites" : "Add to Favorites") { app.toggleFavorite(clips) }

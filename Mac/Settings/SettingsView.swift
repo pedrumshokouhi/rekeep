@@ -62,31 +62,11 @@ struct SettingsView: View {
 
 private struct GeneralSettings: View {
     @Environment(AppModel.self) private var app
-    @State private var axTrusted = PasteboardWriter.canPasteDirectly
-    private let timer = Timer.publish(every: 1.5, on: .main, in: .common).autoconnect()
-
     var body: some View {
         @Bindable var settings = app.settings
         Form {
             Section {
-                Picker("When you choose a clip", selection: $settings.pasteBehavior) {
-                    ForEach(PasteBehavior.allCases) { Text($0.title).tag($0) }
-                }
-                if settings.pasteBehavior == .pasteDirectly {
-                    LabeledContent("Accessibility") {
-                        if axTrusted {
-                            Label("Allowed", systemImage: "checkmark.circle.fill").foregroundStyle(Palette.jadeInk)
-                        } else {
-                            HStack {
-                                Text("Needed to paste for you").foregroundStyle(.secondary)
-                                Button("Allow…") { PasteboardWriter.requestAccessibility(); PasteboardWriter.openAccessibilitySettings() }
-                            }
-                        }
-                    }
-                    Text("Rekeep sends ⌘V to the app you were using. Without this permission it copies, and you press ⌘V yourself.")
-                        .font(.caption).foregroundStyle(.secondary)
-                }
-                Toggle("Paste as plain text by default", isOn: $settings.pastePlainTextByDefault)
+                Toggle("Copy as plain text by default", isOn: $settings.pastePlainTextByDefault)
                 Picker("Join multiple clips with", selection: $settings.multiSeparator) {
                     ForEach(MultiCopySeparator.allCases) { Text($0.title).tag($0) }
                 }
@@ -105,7 +85,6 @@ private struct GeneralSettings: View {
             }
         }
         .formStyle(.grouped)
-        .onReceive(timer) { _ in axTrusted = PasteboardWriter.canPasteDirectly }
     }
 }
 
@@ -315,7 +294,7 @@ private struct ShortcutSettings: View {
                 LabeledContent("Open the shelf") {
                     ShortcutRecorder(shortcut: Binding(get: { settings.shortcut }, set: { if let s = $0 { settings.shortcut = s } }), allowsClear: false)
                 }
-                LabeledContent("Paste next from Queue") {
+                LabeledContent("Copy next from Queue") {
                     ShortcutRecorder(shortcut: $settings.queueShortcut, allowsClear: true)
                 }
             }
@@ -333,11 +312,11 @@ private struct ShortcutSettings: View {
             Section("In the shelf") {
                 Grid(alignment: .leading, horizontalSpacing: Space.l, verticalSpacing: 7) {
                     row(["←", "→"], "Move between clips (⇧ to select several)")
-                    row(["↩"], "Paste the selected clip")
-                    row(["⇧", "↩"], "Paste as plain text")
+                    row(["↩"], "Copy the selected clip")
+                    row(["⇧", "↩"], "Copy as plain text")
                     row(["⌥", "↩"], "Copy without pasting")
                     row(["Space"], "Preview")
-                    row(["⌘", "1–9"], "Paste one of the first nine visible clips")
+                    row(["⌘", "1–9"], "Copy one of the first nine visible clips")
                     row(["⇥"], "Next collection")
                     row(["⌘", "D"], "Favorite")
                     row(["⌘", "K"], "Add to Paste Queue")

@@ -165,7 +165,7 @@ private struct NavStrip: View {
 
             if app.settings.showKeyboardHints {
                 HStack(spacing: Space.m) {
-                    KeyHint(keys: ["↩"], label: app.settings.pasteBehavior == .pasteDirectly ? "Paste" : "Copy")
+                    KeyHint(keys: ["↩"], label: "Copy")
                     KeyHint(keys: ["⇧", "↩"], label: "Plain")
                     KeyHint(keys: ["Space"], label: "Preview")
                 }

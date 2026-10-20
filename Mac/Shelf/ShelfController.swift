@@ -66,6 +66,16 @@ final class ShelfController: NSObject, NSWindowDelegate {
         let screen = Self.targetScreen()
         panel.setFrame(frame(on: screen), display: false)
         shelf.willPresent()
+        #if DEBUG
+        if QASupport.invisible {
+            // QA renders: never visible, never key, so nothing reaches the person's keyboard.
+            panel.alphaValue = 0
+            panel.ignoresMouseEvents = true
+            panel.orderFrontRegardless()
+            DispatchQueue.main.async { self.shelf.isVisible = true }
+            return
+        }
+        #endif
         panel.orderFrontRegardless()
         panel.makeKey()
         installKeyMonitor()
@@ -248,7 +258,7 @@ final class ShelfController: NSObject, NSWindowDelegate {
     private func activateSelection(plain: Bool, paste: Bool?) {
         let clips = shelf.actionClips
         if clips.count > 1 {
-            app.copyTogether(clips, paste: paste ?? (app.settings.pasteBehavior == .pasteDirectly))
+            app.copyTogether(clips, paste: paste ?? true)
         } else if let clip = clips.first {
             app.activate(clip, plainText: plain ? true : nil, paste: paste)
         }
@@ -338,7 +348,7 @@ private struct PreviewView: View {
                             Text(metadata(clip)).font(.cardMeta).foregroundStyle(Palette.inkTertiary).lineLimit(1)
                         }
                         Spacer()
-                        KeyHint(keys: ["↩"], label: "Paste")
+                        KeyHint(keys: ["↩"], label: "Copy")
                         KeyHint(keys: ["Space"], label: "Close")
                     }
                     .padding(.horizontal, Space.l)

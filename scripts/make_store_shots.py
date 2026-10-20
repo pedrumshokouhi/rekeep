@@ -98,7 +98,7 @@ if __name__ == "__main__":
         if os.path.exists(p):
             portrait(p, os.path.join(OUT, f"iPad-13-{i}.png"), (2064, 2752), t, s, th, scale=0.80, radius=50, top=110)
     if os.path.isdir(MAC):
-        mac(f"{MAC}/light-shelf/light-panel-1.png", os.path.join(OUT, "Mac-1.png"), "One shortcut. Every clip.", "Press ⇧⌘V, pick a card, and it’s pasted where you were.", LIGHT)
+        mac(f"{MAC}/light-shelf/light-panel-1.png", os.path.join(OUT, "Mac-1.png"), "One shortcut. Every clip.", "Press ⇧⌘V, pick a card, then ⌘V wherever you are.", LIGHT)
         mac(f"{MAC}/light-preview/light-panel-1.png", os.path.join(OUT, "Mac-2.png"), "Look closer before you paste.", "Press Space for a full preview of any clip.", LIGHT, preview=f"{MAC}/light-preview/light-panel-7.png")
         mac(f"{MAC}/dark-shelf/dark-panel-1.png", os.path.join(OUT, "Mac-3.png"), "Quiet until you need it.", "Lives in your menu bar. Keeps everything on your Mac.", DARK)
     print("\n".join(sorted(os.listdir(OUT))))

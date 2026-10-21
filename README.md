@@ -4,6 +4,21 @@ A clipboard manager for Mac, iPhone and iPad. Everything you copy, kept as clear
 
 Press ⇧⌘V on the Mac and your recent clips rise from the bottom of the screen. Arrow to one, press Return, and it is pasted where you were working. Start typing to search everything you have ever kept.
 
+<p align="center">
+  <img src="docs/AppStore/screenshots/Mac-1.png" alt="The Rekeep shelf on a Mac: cards for a link, Swift code, a colour, an image, a note, a template, SQL and a screenshot" width="100%">
+</p>
+
+<p align="center">
+  <img src="docs/AppStore/screenshots/iPhone-6.3-1.png" alt="iPhone: the feed of saved clips" width="24%">
+  <img src="docs/AppStore/screenshots/iPhone-6.3-2.png" alt="iPhone: search finds a clip by a word inside it" width="24%">
+  <img src="docs/AppStore/screenshots/iPhone-6.3-3.png" alt="iPhone: the Rekeep keyboard types a saved clip into any app" width="24%">
+  <img src="docs/AppStore/screenshots/Mac-2.png" alt="Mac: press Space for a full preview of any clip" width="24%">
+</p>
+
+<p align="center">
+  <img src="docs/AppStore/screenshots/iPad-13-1.png" alt="iPad: sidebar, masonry grid and the inspector with notes, tags and collections" width="72%">
+</p>
+
 ## What ships in 1.0
 
 | Platform | What you get |

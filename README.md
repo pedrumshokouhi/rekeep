@@ -2,7 +2,7 @@
 
 A clipboard manager for Mac, iPhone and iPad. Everything you copy, kept as clear cards and found in seconds. Free, no account, nothing leaves the device.
 
-Press ⇧⌘V on the Mac and your recent clips rise from the bottom of the screen. Arrow to one, press Return, and it is pasted where you were working. Start typing to search everything you have ever kept.
+Press ⇧⌘V on the Mac and your recent clips rise from the bottom of the screen. Arrow to one, press Return, then ⌘V, and it lands where you were working. Start typing to search everything you have ever kept.
 
 <p align="center">
   <img src="docs/AppStore/screenshots/Mac-1.png" alt="The Rekeep shelf on a Mac: cards for a link, Swift code, a colour, an image, a note, a template, SQL and a screenshot" width="100%">
@@ -42,7 +42,7 @@ Compose turns a set of clips into a brief, an email outline, a reference list, o
 RekeepKit/     Shared engine: storage, search, capture policy, secret detection, Compose
 Shared/        Design tokens and models used by every target
 SharedApp/     SwiftUI views shared by the Mac and iOS apps
-Mac/           Menu-bar app, shelf, Library, hot keys, Accessibility paste
+Mac/           Menu-bar app, shelf, Library, hot keys, onboarding, settings
 iOS/           iPhone and iPad app, Share extension, custom keyboard
 scripts/       Release: archive, sign, upload
 docs/          Status, research log, App Store metadata and screenshots
